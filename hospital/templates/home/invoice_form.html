@@ -20,23 +20,26 @@
 <a href="{% url 'invoice' %}"><strong class="text-warning"><i class="fas fa-receipt fa-1x"></i> Issue Invoice</strong></a>
 </div>
   </br>
-  <div class="container">
-    <div class="pull-right col-md-12">
-      <div class="card text-primary">
-        <br>
-        {% include 'partials/_alerts.html' %}
-        <form method="post" class="form-group col-md-12">
-          <div class="card-header bg-primary text-warning">
-            <h4>
-              <i class="fas fa-receipt"></i> Issue Invoice</h4>
-          </div>
+  <section class="main">
+    <div class="container">
+      <div class="pull-right col-md-12">
+        <div class="card text-primary">
           <br>
-          {% csrf_token %}
-          {{ form|crispy }}
-          <input type="submit" class="form-group col-md-12 btn btn-warning" value="Issue Invoice">
-        </form>
+          {% include 'partials/_alerts.html' %}
+          <form method="post" class="form-group col-md-12">
+            <div class="card-header bg-primary text-warning">
+              <h4>
+                <i class="fas fa-receipt"></i> Issue Invoice</h4>
+            </div>
+            <br>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="form-group col-md-12 btn btn-warning" value="Issue Invoice">
+          </form>
+        </div>
+        <br>
       </div>
-      <br>
     </div>
-  </div>
+  </section>
+
 {% endblock content%}

@@ -22,28 +22,31 @@
 
 </div>
   </br>
-  <div class="container">
+  <section class="main">
+    <div class="container">
 
-    <div class="pull-right col-md-12">
-      <div class="form-group col-md-12">
-        <h3 class="form-group text-center text-warning">Please check/uncheck busy box and then click update</h3>
-      </div>
-      <div class="card text-primary">
-        <br>
-        {% include 'partials/_alerts.html' %}
-        <form method="post" class="form-group col-md-12">
-          <div class="card-header bg-primary text-warning">
-            <h4>
-              <i class="fas fa-toggle-on"></i> Update Current Status</h4>
-          </div>
+      <div class="pull-right col-md-12">
+        <div class="form-group col-md-12">
+          <h3 class="form-group text-center text-warning">Please check/uncheck busy box and then click update</h3>
+        </div>
+        <div class="card text-primary">
           <br>
-          {% csrf_token %}
-          {{ form|crispy }}
-          <input type="submit" class="form-group col-md-12 btn btn-warning" value="Update">
-        </form>
+          {% include 'partials/_alerts.html' %}
+          <form method="post" class="form-group col-md-12">
+            <div class="card-header bg-primary text-warning">
+              <h4>
+                <i class="fas fa-toggle-on"></i> Update Current Status</h4>
+            </div>
+            <br>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="form-group col-md-12 btn btn-warning" value="Update">
+          </form>
+        </div>
+        <br>
       </div>
-      <br>
     </div>
-  </div>
+
+  </section>
 
 {% endblock content%}
