@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>My status</title>
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="sidebar">
+  <br>
+  <br>
+  <br>
+  <br>
+<a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+<a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+<a href="{% url 'appointments' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
+<a href="{% url 'consultations' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+<a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create</a>
+<a href="{% url 'doctor_status' %}"><strong class="text-warning"><i class="fas fa-toggle-on fa-1x"></i> Status</strong></a>
+
+
+</div>
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+
+    <br>
+    <div class="row text-center">
+      {% if doctor %}
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="thead-primary">
+                <tr>
+                  <th>CURRENT STATUS</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% if doctor.busy %}
+                <tr class="table-success">
+                  <td>BUSY</td>
+                  <td class="text-center"><a href="doctor-status/update/{{doctor.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>CHANGE YOUR CURRENT STATUS</strong></button></a></td>
+                </tr>
+              {% else %}
+                <tr class="table-success">
+                  <td>AVAILABLE</td>
+                  <td class="text-center"><a href="doctor-status/update/{{doctor.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>CHANGE YOUR CURRENT STATUS</strong></button></a></td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% else %}
+      <div class="container">
+        <h3>No status found!</h3>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+
+
+{% endblock content%}

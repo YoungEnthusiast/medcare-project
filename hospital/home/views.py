@@ -1,0 +1,258 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import ContactForm, AppointmentForm, InvoiceForm
+from .models import Contact, Appointment, Invoice, Receptionist
+from django.contrib.auth.decorators import login_required, permission_required
+from .filters import AppointmentFilter, InvoiceFilter
+from django.core.paginator import Paginator
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from treatment.models import Doctor
+import random
+from django.urls import reverse_lazy
+from datetime import date
+from django.views.generic import UpdateView
+from django.core.mail import send_mail
+
+def showHome(request):
+    return render(request, 'home/home.html')
+
+def showAbout(request):
+    return render(request, 'home/about.html')
+
+def showContact(request):
+    form = ContactForm()
+    if request.method == 'POST':
+        form = ContactForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            name = form.cleaned_data.get('name')
+            email = form.cleaned_data.get('email')
+            # send_mail(
+            #     'Contact BuildQwik',
+            #     'A message was sent by ' + name + '. Please log in to admin panel to read message',
+            #     'admin@buildqwik.ng',
+            #     [email, 'hello@buildqwik.ng'],
+            #     fail_silently=False,
+            #     #html_message = render_to_string('home/home1.html')
+            # )
+            messages.success(request, str(name) + ", your message will receive attention shortly")
+        else:
+            return redirect('contact')
+    return render(request, 'home/contact_form.html', {'form': form})
+
+@login_required
+@permission_required('home.view_appointment')
+@permission_required('home.view_receptionist')
+@permission_required('treatment.view_doctor')
+@permission_required('treatment.view_patient')
+def showReceptionistBoard(request):
+    appointments = Appointment.objects.all()
+    done = Appointment.objects.filter(status = 1).count()
+    pending = Appointment.objects.filter(status = 0).count()
+
+    doctors = Doctor.objects.all()
+    busy = Doctor.objects.filter(busy = 1).count()
+    available = Doctor.objects.filter(busy = 0).count()
+    try:
+        doc1 = Doctor.objects.filter(busy=0)[0]
+    except:
+        doc1 = " "
+    try:
+        doc2 = Doctor.objects.filter(busy=0)[1]
+    except:
+        doc2 = " "
+    try:
+        doc3 = Doctor.objects.filter(busy=0)[2]
+    except:
+        doc3 = "---"
+    try:
+        next = Appointment.objects.filter(status = 0).order_by('created')[0]
+    except:
+        next = ""
+    try:
+        second = Appointment.objects.filter(status = 0).order_by('created')[1]
+    except:
+        second = ""
+
+    context = {'pending':pending, 'next':next, 'second': second,  'busy':busy, 'available':available, 'doc1':doc1, 'doc2':doc2, 'doc3':doc3}
+    return render(request, 'home/receptionist_dashboard.html', context)
+
+
+@login_required
+@permission_required('home.view_appointment')
+def showAppointments(request):
+    context = {}
+    filtered_appointments = AppointmentFilter(
+        request.GET,
+        queryset = Appointment.objects.all()
+    )
+    context['filtered_appointments'] = filtered_appointments
+    paginated_filtered_appointments = Paginator(filtered_appointments.qs, 10)
+    page_number = request.GET.get('page')
+    appointments_page_obj = paginated_filtered_appointments.get_page(page_number)
+    context['appointments_page_obj'] = appointments_page_obj
+    total_appointments = filtered_appointments.qs.count()
+    context['total_appointments'] = total_appointments
+    return render(request, 'home/appointments.html', context=context)
+
+@login_required
+@permission_required('home.change_appointment')
+def updateAppointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    form = AppointmentForm(instance=appointment)
+    if request.method=='POST':
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The appointment has been modified successfully")
+            return redirect('appointments')
+    return render(request, 'home/appointment_form_update.html', {'form': form, 'appointment': appointment})
+
+@login_required
+@permission_required('home.view_appointment')
+def deleteAppointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    obj = get_object_or_404(Appointment, id = id)
+    if request.method =="POST":
+        obj.delete()
+        return redirect('appointments')
+    context = {'appointment': appointment}
+    return render(request, 'home/appointment_confirm_delete.html', context)
+
+@login_required
+@permission_required('home.add_appointment')
+def createAppointment(request):
+    form = AppointmentForm()
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            reg = Appointment.objects.filter(appointment_Id=2021)[0]
+            reg.appointment_Id = "MC" + str(random.randint(10000,99999))
+            reg.receptionist = request.user.first_name
+            reg.save()
+            #patient = form.cleaned_data.get('patient')
+            #doctor = form.cleaned_data.get('doctor')
+            appointment_id = reg.appointment_Id
+            first_name = reg.patient.user.first_name
+            patient_id = reg.patient.user.identifier
+            doc_email = reg.doctor.user.email
+            send_mail(
+                'NEW PATIENT APPOINTMENT',
+                'You have been assigned to a new patient whose ID is: ' + str(patient_id) + '. The appointment ID is: ' + str(appointment_id) + '.',
+                'admin@buildqwik.ng',
+                [doc_email],
+                fail_silently=False,
+                #html_message = render_to_string('home/home1.html')
+            )
+            messages.success(request, str(first_name) + "'s appointment has been added successfully")
+        else:
+            return redirect('appointment')
+    return render(request, 'home/appointment_form.html', {'form': form})
+
+@login_required
+@permission_required('home.view_invoice')
+def showInvoices(request):
+    context = {}
+    filtered_invoices = InvoiceFilter(
+        request.GET,
+        queryset = Invoice.objects.all()
+    )
+    context['filtered_invoices'] = filtered_invoices
+    paginated_filtered_invoices = Paginator(filtered_invoices.qs, 10)
+    page_number = request.GET.get('page')
+    invoices_page_obj = paginated_filtered_invoices.get_page(page_number)
+    context['invoices_page_obj'] = invoices_page_obj
+    total_invoices = filtered_invoices.qs.count()
+    context['total_invoices'] = total_invoices
+    return render(request, 'home/invoices.html', context=context)
+
+# @login_required
+# def updateInvoice(request, id):
+#     invoice = Invoice.objects.get(id=id)
+#     form = InvoiceForm(instance=invoice)
+#     if request.method=='POST':
+#         form = InvoiceForm(request.POST, instance=invoice)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "The invoice has been modified successfully")
+#             return redirect('invoices')
+#     return render(request, 'home/invoice_form_update.html', {'form': form, 'invoice': invoice})
+
+class InvoiceUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+#class InvoiceUpdateView(SuccessMessageMixin, UpdateView):
+    model = Invoice
+    template_name = 'home/invoice_form_update.html'
+    success_url = reverse_lazy('invoices_adm')
+    #success_message = "%(username)s was created"
+    success_message = "The invoice has been confirmed successfully"
+    fields = ('confirmation',)
+    permission_required = 'home.change_invoice'
+
+@login_required
+@permission_required('home.add_invoice')
+def issueInvoice(request):
+    form = InvoiceForm()
+    if request.method == 'POST':
+        form = InvoiceForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            reg = Invoice.objects.all()[0]
+            reg.receptionist = request.user.first_name
+            reg.save()
+            appointment = form.cleaned_data.get('appointment')
+            #email = form.cleaned_data.get('email')
+            # send_mail(
+            #     'Contact BuildQwik',
+            #     'A message was sent by ' + name + '. Please log in to admin panel to read message',
+            #     'admin@buildqwik.ng',
+            #     [email, 'hello@buildqwik.ng'],
+            #     fail_silently=False,
+            #     #html_message = render_to_string('home/home1.html')
+            # )
+            messages.success(request, str(appointment.patient.user.first_name) + "'s invoice has been saved successfully")
+        else:
+            return redirect('invoice')
+    return render(request, 'home/invoice_form.html', {'form': form})
+
+@login_required
+@permission_required('home.view_invoice')
+def showInvoice(request, pk, **kwargs):
+    invoice = Invoice.objects.get(id=pk)
+    context = {'invoice': invoice}
+    return render(request, 'home/invoice_detail.html', context)
+
+@login_required
+@permission_required('home.view_invoice')
+@permission_required('home.view_hr')
+@permission_required('home.change_invoice')
+@permission_required('home.view_appointment')
+@permission_required('treatment.view_patient')
+def showAdminBoard(request):
+    invoices = Invoice.objects.all()
+    today_invoices = Invoice.objects.filter(created__contains=date.today())
+    all_total = 0
+    today_total = 0
+    for each in invoices:
+        if each.total() != None:
+            all_total = all_total + each.total()
+        else:
+            all_total = all_total
+    for each2 in today_invoices:
+        if each2.total() != None:
+            today_total = today_total + each2.total()
+        else:
+            today_total = today_total
+    try:
+        last_invoice = Invoice.objects.filter(created__contains=date.today())[0]
+        last_amount = last_invoice.total()
+    except:
+        last_amount = " "
+    try:
+        next = Appointment.objects.filter(status = 0).order_by('created')[0]
+    except:
+        next = ""
+
+    context = {'all_total':all_total, 'today_total':today_total, 'last_amount':last_amount, 'next':next}
+    return render(request, 'home/admin_dashboard.html', context)

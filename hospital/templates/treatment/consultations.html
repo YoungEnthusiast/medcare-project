@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Patients' Histories</title>
+{% endblock title %}
+
+{% block content %}
+{% load home_tags %}
+<br>
+{% if 'doctor-dashboard' in request.path %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+  <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'appointments' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
+  <a href="{% url 'consultations' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
+  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create</a>
+  <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
+
+  </div>
+{% else %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+  <a href="{% url 'patients_lab' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'consultations' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
+  </div>
+{% endif %}
+
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+
+    {% if consultations_page_obj %}
+    <h4 class="text-center text-warning">Search Histories by One or Many Fields</h4>
+    <div class="col-md-12">
+      <div class="box-element bg-warning" id="form-wrapper">
+        <form method="get" class="form-inline text-white">
+          {% for field in filtered_consultations.form %}
+            <strong>{{field.label}}:</strong>&nbsp{{field}}&nbsp&nbsp
+          {% endfor %}
+          <input type="submit" class="btn btn-dark" value="Sort">
+        </form>
+      </div>
+    </div>
+    {% endif %}
+    <br>
+    <div class="row text-center">
+      {% if consultations_page_obj %}
+        <div class="col-md-12">
+          {% if total_consultations > 1 %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Histories: {{total_consultations}}</h3>
+          </div>
+          {% else %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total History: {{total_consultations}}</h3>
+          </div>
+          {% endif %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="thead-primary">
+                <tr>
+                  <th>DATE</th>
+                  <th>APPOINTMENT</th>
+                  <th>PATIENT'S ID & NAME</th>
+                  <th>DOCTOR</th>
+                  <th>SYPTOMS</th>
+                  <th>TEST RESULT</th>
+                  <th>PRESCRIPTION</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for consultation in consultations_page_obj %}
+                  <tr class="table-success">
+                    <td>{{consultation.created}}</td>
+                    <td>{{consultation.appointment.appointment_Id}}</td>
+                    <td><strong><a href="{% url 'show_patient' consultation.appointment.patient.id %}">{{consultation.appointment.patient}} | {{consultation.appointment.patient.user.first_name}} {{consultation.appointment.patient.user.last_name}}</a></strong></td>
+                    <td>{{consultation.appointment.doctor}}</td>
+                    <td>{{consultation.patient_symptoms}}</td>
+                    <td>{{consultation.test_result}}</td>
+                    <td>{{consultation.prescription}}</td>
+                    <td class="text-center"><a href="patients-histories/update/{{consultation.id}}"><button type="button" class="btn btn-sm btn-primary text-white"><strong>Modify</strong></button></a></td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <nav aria-label="...">
+              <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="{% my_url 1 'page' request.GET.urlencode %}" tabindex="-1" aria-disabled="true">First</a></li>
+                {% if consultations_page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% my_url consultations_page_obj.previous_page_number 'page' request.GET.urlencode %}">{{consultations_page_obj.previous_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item active" aria-current="page"><a class="page-link" href="{% my_url consultations_page_obj.number 'page' request.GET.urlencode %}">{{consultations_page_obj.number}}<span class="sr-only">(current)</span></a></li>
+                {% if consultations_page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% my_url consultations_page_obj.next_page_number 'page' request.GET.urlencode %}">{{consultations_page_obj.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="{% my_url consultations_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">Last</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      {% else %}
+      <div class="container">
+        <h3>No patients' history found!</h3>
+      </div>
+
+      {% endif %}
+    </div>
+  </section>
+
+
+
+{% endblock content%}

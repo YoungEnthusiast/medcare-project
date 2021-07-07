@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+  <title>Invoice Page</title>
+  <style type="text/css">
+  @media print {
+      #printbtn {
+          display : none;
+      }
+  }
+  </style>
+{% endblock title %}
+
+{% block content %}
+<br>
+<form class="d-flex justify-content-center">
+  <input id ="printbtn" type="button" class="btn btn-warning text-white" value="Click to show print preview" onclick="window.print();" >
+</form> <br>
+
+<section>
+
+    <div class="card bg-primary text-light form-group col-md-12">
+      <div class="row">
+        <div class="col-md-5">
+
+        </div>
+        <div class="col-md-2">
+          <img src="{% static 'img/logo.png' %}" alt="Med Care Logo" width="50" height="150">
+        </div>
+        <div class="col-md-5">
+
+        </div>
+      </div>
+      <h5 class="d-flex justify-content-center"> <strong>MED CARE HOSPITALS</strong>  </h5>
+
+      <br>
+      <div class="row">
+        <div class="bg-warning text-white form-group col-md-9">
+          <h5><strong>BILL TO:</strong></h5>
+          <h6>ID: <strong>{{invoice.appointment.patient}}</strong></h6>
+          <h6>Name: <strong>{{invoice.appointment.patient.user.first_name}} {{invoice.appointment.patient.user.last_name}}</strong></h6>
+          <h6>Address: <strong>{{invoice.appointment.patient.user.address}}</strong></h6>
+        </div>
+        <div class="bg-warning text-white form-group col-md-3">
+          <h5>Doctor on Duty: <strong>{{invoice.appointment.doctor}}</strong></h5>
+          <h5>Invoice Issuer: <strong>{{invoice.receptionist}}</strong></h5>
+        </div>
+      </div>
+      <h6 class="text-center">Appointment ID: <strong>{{invoice.appointment}}</strong></h6>
+      <h6 class="text-center">Issued Date: <strong>{{invoice.created}}</strong></h6>
+      <div class="bg-light text-warning form-group col-md-12">
+          <table class="table table-bordered">
+            <thead class="thead-primary">
+              <tr>
+                <th>DESCRIPTION</th>
+                <th>AMOUNT PAID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if invoice.blood_test != None %}
+              <tr class="table-light">
+                <td>Blood Test</td>
+                <td>₦{{invoice.blood_test|intcomma}}</td>
+              </tr>
+              {% endif %}
+              {% if invoice.admission != None %}
+              <tr class="table-light">
+                <td>Admission</td>
+                <td>₦{{invoice.admission|intcomma}}</td>
+              </tr>
+              {% endif %}
+              {% if invoice.injection != None %}
+              <tr class="table-light">
+                <td>Injection</td>
+                <td>₦{{invoice.injection|intcomma}}</td>
+              </tr>
+              {% endif %}
+              {% if invoice.medicine != None %}
+              <tr class="table-light">
+                <td>Medicine</td>
+                <td>₦{{invoice.medicine|intcomma}}</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-md-8">
+
+            </div>
+            <div class="bg-warning text-white form-group col-md-4">
+              <strong style="float:right">TOTAL = ₦{{invoice.total|intcomma}}</strong>
+            </div>
+          </div>
+      </div>
+
+</section>
+{% endblock content%}

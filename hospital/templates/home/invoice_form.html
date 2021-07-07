@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  <title>Issue Invoice</title>
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="sidebar">
+  <br>
+  <br>
+  <br>
+  <br>
+<a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+<a href="{% url 'patients' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+<a href="{% url 'appointments' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
+<a href="{% url 'appointment' %}"><i class="fas fa-plus-square fa-1x"></i> Appoint</a>
+<a href="{% url 'invoices' %}"><i class="fas fa-print fa-1x"></i> Invoices</a>
+<a href="{% url 'invoice' %}"><strong class="text-warning"><i class="fas fa-receipt fa-1x"></i> Issue Invoice</strong></a>
+</div>
+  </br>
+  <div class="container">
+    <div class="pull-right col-md-12">
+      <div class="card text-primary">
+        <br>
+        {% include 'partials/_alerts.html' %}
+        <form method="post" class="form-group col-md-12">
+          <div class="card-header bg-primary text-warning">
+            <h4>
+              <i class="fas fa-receipt"></i> Issue Invoice</h4>
+          </div>
+          <br>
+          {% csrf_token %}
+          {{ form|crispy }}
+          <input type="submit" class="form-group col-md-12 btn btn-warning" value="Issue Invoice">
+        </form>
+      </div>
+      <br>
+    </div>
+  </div>
+{% endblock content%}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>{{user.identifier}}</title>
+{% endblock title %}
+
+{% block content %}
+  <br>
+  {% if 'doctor-dashboard' in request.path %}
+    <div class="sidebar">
+      <br>
+      <br>
+      <br>
+      <br>
+    <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+    <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+    <a href="{% url 'appointments' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
+    <a href="{% url 'consultations' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+    <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create</a>
+    <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
+
+    </div>
+  {% else %}
+    <div class="sidebar">
+      <br>
+      <br>
+      <br>
+      <br>
+    <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+    <a href="{% url 'patients_lab' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+    <a href="{% url 'consultations_lab' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+    </div>
+  {% endif %}
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+    <h2 class="text-center">Welcome to your dashboard, <span class="text-warning"><strong><i>{{user.first_name}}</i></strong></span>. Navigate through the dashboard using the left panel</h2>
+    <br>
+    <div class="row">
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">Oncoming Appointment ID</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{{next}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">OnComing Patient ID</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{{next.patient.user.identifier}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">OnComing Patient Name</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{{next.patient.user.first_name}} {{next.patient.user.last_name}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+{% endblock content%}

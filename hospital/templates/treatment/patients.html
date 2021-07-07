@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Appointments</title>
+{% endblock title %}
+
+{% block content %}
+{% load home_tags %}
+  <br>
+  {% if 'doctor-dashboard' in request.path %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+  <a href="{% url 'patients_doc' %}"><strong class="text-warning"><i class="fas fa-users fa-1x"></i> Patients</strong></a>
+  <a href="{% url 'appointments_doc' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
+  <a href="{% url 'consultations' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create</a>
+  <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
+
+  </div>
+  {% elif 'lab-scientist-dashboard' in request.path %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+    <a href="{% url 'patients_lab' %}"><strong class="text-warning"><i class="fas fa-users fa-1x"></i> Patients</strong></a>
+    <a href="{% url 'consultations_lab' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+
+  </div>
+  {% elif 'pharmacist-dashboard' in request.path %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+    <a href="{% url 'patients_pha' %}"><strong class="text-warning"><i class="fas fa-users fa-1x"></i> Patients</strong></a>
+    <a href="{% url 'consultations_pha' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+
+  </div>
+  {% elif 'nurse-dashboard' in request.path %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+    <a href="{% url 'patients_nur' %}"><strong class="text-warning"><i class="fas fa-users fa-1x"></i> Patients</strong></a>
+    <a href="{% url 'consultations_nur' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+
+  </div>
+  {% elif 'admin-dashboard' in request.path %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+    <a href="{% url 'patients_adm' %}"><strong class="text-warning"><i class="fas fa-users fa-1x"></i> Patients</strong></a>
+    <a href="{% url 'invoices_adm' %}"><i class="fas fa-print fa-1x"></i> Invoices</a>
+
+  </div>
+{% else %}
+<div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+<a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+<a href="{% url 'patients' %}"><strong class="text-warning"><i class="fas fa-users fa-1x"></i> Patients</strong></a>
+<a href="{% url 'appointments' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
+<a href="{% url 'appointment' %}"><i class="fas fa-plus-square fa-1x"></i> Appoint</a>
+<a href="{% url 'invoices' %}"><i class="fas fa-print fa-1x"></i> Invoices</a>
+<a href="{% url 'invoice' %}"><i class="fas fa-receipt fa-1x"></i> Issue Invoice</a>
+</div>
+{% endif %}
+
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+
+    {% if patients_page_obj %}
+    <h4 class="text-center text-warning">Search patients by One or Many Fields</h4>
+    <div class="col-md-12">
+      <div class="box-element bg-warning" id="form-wrapper">
+        <form method="get" class="form-inline text-white">
+          {% for field in filtered_patients.form %}
+            <strong>{{field.label}}:</strong>&nbsp{{field}}&nbsp&nbsp
+          {% endfor %}
+          <input type="submit" class="btn btn-dark" value="Sort">
+        </form>
+      </div>
+    </div>
+    {% endif %}
+    <br>
+    <div class="row text-center">
+      {% if patients_page_obj %}
+        <div class="col-md-12">
+          {% if total_patients > 1 %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Patients: {{total_patients}}</h3>
+          </div>
+          {% else %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Patient: {{total_patients}}</h3>
+          </div>
+          {% endif %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="thead-primary">
+                <tr>
+                  <th>DATE REGISTERED</th>
+                  <th>ID & FULL NAME</th>
+                  <th>GENDER</th>
+                  <th>RETAINER</th>
+                  <th>BLOOD GROUP</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for patient in patients_page_obj %}
+                <tr class="table-success">
+                  <td>{{patient.user.created}}</td>
+                  <td><a href="{% url 'show_patient' patient.id %}"><strong>{{patient.user.identifier}} | {{patient.user.first_name}} {{patient.user.last_name}}</strong></a></td>
+                  <td>{{patient.user.gender}}</td>
+                  <td>{{patient.user.retainer}}</td>
+                  <td>{{patient.user.blood_group}}</td>
+                  <td class="text-center"><a href="patients/update/{{patient.user.id}}"><button type="button" class="btn btn-sm btn-primary text-white"><strong>Modify</strong></button></a></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <nav aria-label="...">
+              <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="{% my_url 1 'page' request.GET.urlencode %}" tabindex="-1" aria-disabled="true">First</a></li>
+                {% if patients_page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% my_url patients_page_obj.previous_page_number 'page' request.GET.urlencode %}">{{patients_page_obj.previous_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item active" aria-current="page"><a class="page-link" href="{% my_url patients_page_obj.number 'page' request.GET.urlencode %}">{{patients_page_obj.number}}<span class="sr-only">(current)</span></a></li>
+                {% if patients_page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% my_url patients_page_obj.next_page_number 'page' request.GET.urlencode %}">{{patients_page_obj.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="{% my_url patients_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">Last</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      {% else %}
+      <div class="container">
+        <h3>No patient found!</h3>
+      </div>
+
+      {% endif %}
+    </div>
+  </section>
+
+
+
+{% endblock content%}

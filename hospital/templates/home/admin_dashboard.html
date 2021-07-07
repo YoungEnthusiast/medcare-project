@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+  <title>{{user.identifier}}</title>
+{% endblock title %}
+
+{% block content %}
+  <br>
+<div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+    <a href="{% url 'patients_adm' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+    <a href="{% url 'invoices_adm' %}"><i class="fas fa-print fa-1x"></i> Invoices</a>
+
+</div>
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+    <h2 class="text-center">Welcome to your dashboard, <span class="text-warning"><strong><i>{{user.first_name}}</i></strong></span>. Navigate through the dashboard using the left panel</h2>
+    <br>
+    <div class="row">
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">Oncoming Appointment ID</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{{next}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">OnComing Patient ID</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{{next.patient.user.identifier}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">OnComing Patient Name</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">{{next.patient.user.first_name}} {{next.patient.user.last_name}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">All Total Past Amount</h5>
+            </div>
+            <div class="card-body">
+              {% if all_total == 0 %}
+              <h3 class="card-title">{{all_total|intcomma}}</h3>
+              {% else %}
+              <h3 class="card-title">₦{{all_total|intcomma}}</h3>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">Total Amount Today</h5>
+            </div>
+            <div class="card-body">
+              {% if today_total == 0 %}
+              <h3 class="card-title">{{today_total|intcomma}}</h3>
+              {% else %}
+              <h3 class="card-title">₦{{today_total|intcomma}}</h3>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="col-md">
+          <div class="card text-center text-warning mb-3">
+            <div class="card-header bg-primary">
+              <h5 class="card-title text-light">Last Amount Paid</h5>
+            </div>
+            <div class="card-body">
+              {% if last_amount == None %}
+              <h3 class="card-title">{{last_amount|intcomma}}</h3>
+              {% else %}
+              <h3 class="card-title">₦{{last_amount|intcomma}}</h3>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+{% endblock content%}

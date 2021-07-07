@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+  <title>Contact us</title>
+{% endblock title %}
+
+{% block content %}
+
+<section>
+    <div class="row text-center">
+      <div class="col-md-12">
+        <img src="{% static 'img/contact.jpg' %}" alt="Contact Image" class="rounded-lg" width="100%" height="450">
+      </div>
+    </div>
+</section>
+<br>
+{% include 'partials/_alerts.html' %}
+<section>
+  <div class="row">
+    <div class="pull-right col-md-7">
+      <div class="google-maps mb-100">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3946.3287785472226!2d4.5876676785736095!3d8.467374447563742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10364d373f7a8763%3A0xfbef092664cf9a6c!2sMED%20CARE%20HOSPITALS!5e0!3m2!1sen!2sng!4v1624814918094!5m2!1sen!2sng" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+    <div class="pull-left card card-body bg-light text-warning form-group col-md-4 ml-5">
+      <h6><i class="fa fa-home fa-1x text-warning"></i> <strong class="text-primary">Address</strong></h6>
+      <p>Pipeline Road, Ilorin, Kwara State.</p>
+      <h6><i class="fa fa-phone fa-1x text-warning"></i> <strong class="text-primary">Tel</strong></h6>
+      <p>+234(0)</p>
+      <h6><i class="fa fa-envelope-open fa-1x text-warning"></i> <strong class="text-primary">Email</strong></h6>
+      <p>info@medcarehospitals.com.ng</p>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <button class="btn btn-warning" data-toggle="modal" data-target="#contact"><strong class="text-white">Click to Contact us</strong></button>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="contact" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-warning" id="inquiryModalLabel"><i class="fas fa-envelope-open"></i> Send a Message</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <br>
+                <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  {{ form|crispy }}
+                  <hr>
+                  <input type="submit" value="Submit" class="btn btn-block btn-warning">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,136 @@
+{% load static %}
+<nav class="p-0 navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <a class="ml-2 navbar-brand" href="{% url 'index' %}">
+      <img src="{% static 'img/logo.jpg' %}" width="50" height="80" class="logo" alt="Med Care Logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav">
+        <li
+          {% if '/' == request.path %}
+            class="nav-item active mr-3"
+          {% else %}
+            class="nav-item mr-3"
+          {% endif %}
+        >
+          <a class="nav-link" href="{% url 'index' %}"><strong>Home</strong></a>
+        </li>
+        <li
+          {% if 'about' in request.path %}
+            class="nav-item active mr-3"
+          {% else %}
+            class="nav-item mr-3"
+          {% endif %}
+        >
+          <a class="nav-link" href="{% url 'about' %}"><strong>About</strong></a>
+        </li>
+        <li
+          {% if 'contact' in request.path %}
+            class="nav-item active mr-3"
+          {% else %}
+            class="nav-item mr-3"
+          {% endif %}
+        >
+          <a class="nav-link" href="{% url 'contact' %}"><strong>Contact</strong></a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+
+    {% if user.is_authenticated %}
+      <li
+        {% if 'receptionist-dashboard' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'receptionist_dashboard' %}"><strong>Receptionist</strong></a>
+      </li>
+
+      <li
+        {% if 'doctor-dashboard' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'doctor_dashboard' %}"><strong>Doctor</strong></a>
+      </li>
+
+      <li
+        {% if 'lab-scientist-dashboard' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'lab_sc_dashboard' %}"><strong>Lab Technician</strong></a>
+      </li>
+
+      <li
+        {% if 'nurse-dashboard' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'nurse_dashboard' %}"><strong>Nurse</strong></a>
+      </li>
+
+      <li
+        {% if 'pharmacist-dashboard' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'pharmacist_dashboard' %}"><strong>Pharmacist</strong></a>
+      </li>
+
+      <li
+        {% if 'admin-dashboard' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'admin_dashboard' %}"><strong>Admin</strong></a>
+      </li>
+
+      <li
+        {% if 'logout' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <button class="btn btn-outline-warning btn-sm"><a class="nav-link" href="{% url 'logout' %}">
+          <i class="fas fa-sign-out-alt text-light"></i> <strong class="text-light">Logout</strong></a></button>
+      </li>
+    {% else %}
+      <li
+        {% if 'account' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <button class="btn btn-outline-warning btn-sm"><a class="nav-link" href="{% url 'account' %}">
+          <i class="fas fa-user-plus text-light"></i> <strong class="text-light">Register</strong></a></button>
+      </li class="nav-item mr-3">
+      <li
+        {% if 'login' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'login' %}">
+          <i class="fas fa-key"></i> <strong>Login</strong></a>
+      </li>
+    {% endif %}
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}
+  <title>Invoices</title>
+{% endblock title %}
+
+{% block content %}
+{% load home_tags %}
+  <br>
+{% if 'admin-dashboard' in request.path %}
+  <div class="sidebar">
+      <br>
+      <br>
+      <br>
+      <br>
+      <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+      <a href="{% url 'patients_adm' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+      <a href="{% url 'invoices_adm' %}"><strong class="text-warning"><i class="fas fa-print fa-1x"></i> Invoices</strong></a>
+  </div>
+{% else %}
+  <div class="sidebar">
+      <br>
+      <br>
+      <br>
+      <br>
+  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+  <a href="{% url 'patients' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'appointments' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
+  <a href="{% url 'appointment' %}"><i class="fas fa-plus-square fa-1x"></i> Appoint</a>
+  <a href="{% url 'invoices' %}"><strong class="text-warning"><i class="fas fa-print fa-1x"></i> Invoices</strong></a>
+  <a href="{% url 'invoice' %}"><i class="fas fa-receipt fa-1x"></i> Issue Invoice</a>
+  </div>
+{% endif %}
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+
+    {% if invoices_page_obj %}
+    <h4 class="text-center text-warning">Search Invoices by One or Many Fields</h4>
+    <div class="col-md-12">
+      <div class="box-element bg-warning" id="form-wrapper">
+        <form method="get" class="form-inline text-white">
+          {% for field in filtered_invoices.form %}
+            <strong>{{field.label}}:</strong>&nbsp{{field}}&nbsp&nbsp
+          {% endfor %}
+          <input type="submit" class="btn btn-dark" value="Sort">
+        </form>
+      </div>
+    </div>
+    {% endif %}
+    <br>
+    <div class="row text-center">
+      {% if invoices_page_obj %}
+        <div class="col-md-12">
+          {% if total_invoices > 1 %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Invoices: {{total_invoices}}</h3>
+          </div>
+          {% else %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Invoice: {{total_invoices}}</h3>
+          </div>
+          {% endif %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="thead-primary">
+                <tr>
+                  <th>DATE RECORDED</th>
+                  <th>RECEPTIONIST</th>
+                  <th>APPOINTMENT ID</th>
+                  <th>BLOOD TEST (₦)</th>
+                  <th>ADMISSION (₦)</th>
+                  <th>INJECTION (₦)</th>
+                  <th>MEDICINE (₦)</th>
+                  <th>TOTAL (₦)</th>
+                  <th>CONFIRMATION</th>
+                  <th>DATE CONFIRMED</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              {% for invoice in invoices_page_obj %}
+                {% if invoice.confirmation %}
+                  <tr class="table-success">
+                    <td>{{invoice.created}}</td>
+                    <td>{{invoice.receptionist}}</td>
+                    <td>{{invoice.appointment}}</td>
+                    <td>{{invoice.blood_test|intcomma}}</td>
+                    <td>{{invoice.admission|intcomma}}</td>
+                    <td>{{invoice.injection|intcomma}}</td>
+                    <td>{{invoice.medicine|intcomma}}</td>
+                    <td>{{invoice.total|intcomma}}</td>
+                    <td>Confirmed</td>
+                    <td>{{invoice.updated}}</td>
+                    <td class="text-center"><a href="invoices/update/{{invoice.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
+                    <td><a href="{% url 'show_invoice' invoice.id %}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>View Invoice</strong></button></a></td>
+                  </tr>
+                {% else %}
+                  <tr class="table-primary">
+                    <td>{{invoice.created}}</td>
+                    <td>{{invoice.receptionist}}</td>
+                    <td>{{invoice.appointment}}</td>
+                    <td>{{invoice.blood_test|intcomma}}</td>
+                    <td>{{invoice.admission|intcomma}}</td>
+                    <td>{{invoice.injection|intcomma}}</td>
+                    <td>{{invoice.medicine|intcomma}}</td>
+                    <td>{{invoice.total|intcomma}}</td>
+                    <td>Unconfirmed</td>
+                    <td>{{invoice.updated}}</td>
+                    <td class="text-center"><a href="invoices/update/{{invoice.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
+                    <td><a href="{% url 'show_invoice' invoice.id %}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>View Invoice</strong></button></a></td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+              </tbody>
+            </table>
+            <nav aria-label="...">
+              <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="{% my_url 1 'page' request.GET.urlencode %}" tabindex="-1" aria-disabled="true">First</a></li>
+                {% if invoices_page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% my_url invoices_page_obj.previous_page_number 'page' request.GET.urlencode %}">{{invoices_page_obj.previous_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item active" aria-current="page"><a class="page-link" href="{% my_url invoices_page_obj.number 'page' request.GET.urlencode %}">{{invoices_page_obj.number}}<span class="sr-only">(current)</span></a></li>
+                {% if invoices_page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% my_url invoices_page_obj.next_page_number 'page' request.GET.urlencode %}">{{invoices_page_obj.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="{% my_url invoices_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">Last</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      {% else %}
+      <div class="container">
+        <h3>No invoice found!</h3>
+      </div>
+
+      {% endif %}
+    </div>
+  </section>
+
+
+
+{% endblock content%}

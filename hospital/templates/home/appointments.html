@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Appointments</title>
+{% endblock title %}
+
+{% block content %}
+{% load home_tags %}
+  <br>
+  {% if 'doctor-dashboard' in request.path %}
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+  <a href="{% url 'patients' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'appointments' %}"><strong class="text-warning"><i class="fas fa-tasks fa-1x"></i> Appointments</strong></a>
+  <a href="{% url 'consultations' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create</a>
+  <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
+
+  </div>
+{% else %}
+<div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+<a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+<a href="{% url 'patients' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+<a href="{% url 'appointments' %}"><strong class="text-warning"><i class="fas fa-tasks fa-1x"></i> Appointments</strong></a>
+<a href="{% url 'appointment' %}"><i class="fas fa-plus-square fa-1x"></i> Appoint</a>
+<a href="{% url 'invoices' %}"><i class="fas fa-print fa-1x"></i> Invoices</a>
+<a href="{% url 'invoice' %}"><i class="fas fa-receipt fa-1x"></i> Issue Invoice</a>
+</div>
+{% endif %}
+
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+
+    {% if appointments_page_obj %}
+    <h4 class="text-center text-warning">Search Appointments by One or Many Fields</h4>
+    <div class="col-md-12">
+      <div class="box-element bg-warning" id="form-wrapper">
+        <form method="get" class="form-inline text-white">
+          {% for field in filtered_appointments.form %}
+            <strong>{{field.label}}:</strong>&nbsp{{field}}&nbsp&nbsp
+          {% endfor %}
+          <input type="submit" class="btn btn-dark" value="Sort">
+        </form>
+      </div>
+    </div>
+    {% endif %}
+    <br>
+    <div class="row text-center">
+      {% if appointments_page_obj %}
+        <div class="col-md-12">
+          {% if total_appointments > 1 %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Appointments: {{total_appointments}}</h3>
+          </div>
+          {% else %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Appointment: {{total_appointments}}</h3>
+          </div>
+          {% endif %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="thead-primary">
+                <tr>
+                  <th>DATE</th>
+                  <th>RECEPTIONIST</th>
+                  <th>APPOINTMENT ID</th>
+                  <th>PATIENT'S ID</th>
+                  <th>PATIENT'S NAME</th>
+                  <th>DOCTOR</th>
+                  <th>STATUS</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for appointment in appointments_page_obj %}
+                {% if appointment.status %}
+                  <tr class="table-success">
+                    <td>{{appointment.created}}</td>
+                    <td>{{appointment.receptionist}}</td>
+                    <td>{{appointment.appointment_Id}}</td>
+                    <td>{{appointment.patient}}</td>
+                    <td>{{appointment.patient.user.first_name}} {{appointment.patient.user.last_name}}</td>
+                    <td>Dr {{appointment.doctor.user.last_name}}</td>
+                    <td>Done</td>
+                    <td class="text-center"><s>Modify</s></td>
+                    <td class="text-center"><s>Delete</s></td>
+                  </tr>
+                {% else %}
+                  <tr class="table-primary">
+                    <td>{{appointment.created}}</td>
+                    <td>{{appointment.receptionist}}</td>
+                    <td>{{appointment.appointment_Id}}</td>
+                    <td>{{appointment.patient}}</td>
+                    <td>{{appointment.patient.user.first_name}} {{appointment.patient.user.last_name}}</td>
+                    <td>Dr {{appointment.doctor.user.last_name}}</td>
+                    <td>Pending</td>
+                    <td class="text-center"><a href="appointments/update/{{appointment.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
+                    <td class="text-center"><a href="appointments/delete/{{appointment.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Delete</strong></button></a></td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+              </tbody>
+            </table>
+            <nav aria-label="...">
+              <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="{% my_url 1 'page' request.GET.urlencode %}" tabindex="-1" aria-disabled="true">First</a></li>
+                {% if appointments_page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% my_url appointments_page_obj.previous_page_number 'page' request.GET.urlencode %}">{{appointments_page_obj.previous_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item active" aria-current="page"><a class="page-link" href="{% my_url appointments_page_obj.number 'page' request.GET.urlencode %}">{{appointments_page_obj.number}}<span class="sr-only">(current)</span></a></li>
+                {% if appointments_page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% my_url appointments_page_obj.next_page_number 'page' request.GET.urlencode %}">{{appointments_page_obj.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="{% my_url appointments_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">Last</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      {% else %}
+      <div class="container">
+        <h3>No appointment found!</h3>
+      </div>
+
+      {% endif %}
+    </div>
+  </section>
+
+
+
+{% endblock content%}

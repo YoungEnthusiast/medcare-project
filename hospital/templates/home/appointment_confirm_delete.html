@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  <title>Delete Appointment</title>
+{% endblock title %}
+
+{% block content %}
+<br>
+<div class="d-flex justify-content-center">
+  <div class="text-center card bg-warning text-white form-group col-md-9">
+    <br>
+      <h4 >Deleting APPOINTMENT ID: {{appointment.appointment_Id}} will remove all the APPOINTMENT's records in the system. Do you still wish to continue?</h4>
+      <br>
+      <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-danger" value="Yes, confirm"> <a class="btn btn-outline-light" href="{% url 'appointments' %}">No, cancel</a>
+      </form>
+      <br>
+  </div>
+</div>
+
+{% endblock content%}
