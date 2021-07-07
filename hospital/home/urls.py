@@ -4,7 +4,7 @@ from treatment import views as treatment_views
 
 urlpatterns = [
     path('', views.showHome, name='index'),
-    path('about-medcare', views.showAbout, name='about'),
+    path('about-med-care', views.showAbout, name='about'),
     path('contact-us', views.showContact, name='contact'),
     path('receptionist-dashboard', views.showReceptionistBoard, name='receptionist_dashboard'),
     path('receptionist-dashboard/patients', treatment_views.showPatients, name='patients'),
