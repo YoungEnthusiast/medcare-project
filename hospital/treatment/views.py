@@ -170,16 +170,10 @@ def showNurseBoard(request):
 def showPharmacistBoard(request):
     try:
         next = Appointment.objects.filter(status = 0).order_by('created')[0]
-        next_patient = next.patient
-        next_patient_id = next.patient.id
-        context = {'next':next, 'next_patient':next_patient, 'next_patient_id':next_patient_id}
-        return render(request, 'treatment/pharmacist_dashboard.html', context)
     except:
-        next = " "
-        next_patient = ""
-        next_patient_id = " "
-        context = {'next':next, 'next_patient':next_patient, 'next_patient_id':next_patient_id}
-        return render(request, 'treatment/pharmacist_dashboard0.html', context)
+        next = ""
+    context = {'next':next}
+    return render(request, 'treatment/pharmacist_dashboard.html', context)
 
 # class ConsultationUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
 # #class InvoiceUpdateView(SuccessMessageMixin, UpdateView):

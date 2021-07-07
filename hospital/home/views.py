@@ -110,6 +110,19 @@ def updateAppointment(request, id):
     return render(request, 'home/appointment_form_update.html', {'form': form, 'appointment': appointment})
 
 @login_required
+@permission_required('home.change_appointment')
+def updateAppointmentDoc(request, id):
+    appointment = Appointment.objects.get(id=id)
+    form = AppointmentForm(instance=appointment)
+    if request.method=='POST':
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The appointment has been modified successfully")
+            return redirect('appointments_doc')
+    return render(request, 'home/appointment_form_update.html', {'form': form, 'appointment': appointment})
+
+@login_required
 @permission_required('home.view_appointment')
 def deleteAppointment(request, id):
     appointment = Appointment.objects.get(id=id)
@@ -117,6 +130,17 @@ def deleteAppointment(request, id):
     if request.method =="POST":
         obj.delete()
         return redirect('appointments')
+    context = {'appointment': appointment}
+    return render(request, 'home/appointment_confirm_delete.html', context)
+
+@login_required
+@permission_required('home.view_appointment')
+def deleteAppointmentDoc(request, id):
+    appointment = Appointment.objects.get(id=id)
+    obj = get_object_or_404(Appointment, id = id)
+    if request.method =="POST":
+        obj.delete()
+        return redirect('appointments_doc')
     context = {'appointment': appointment}
     return render(request, 'home/appointment_confirm_delete.html', context)
 
