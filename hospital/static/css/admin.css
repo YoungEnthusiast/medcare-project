@@ -1,6 +1,6 @@
 #header{
   height: 50px;
-  background: #d42292;
+  background: #057a1a;
   color: #fff;
 }
 
@@ -10,21 +10,21 @@
 
 a:link,
 a:visited {
-  color: #41d941;
+  color: #d42292;
 }
 
 div.breadcrumbs {
-  background: #db9a16;
+  background: #d42292;
 }
 
 div.breadcrumbs a {
-  color: #333;
+  color: #ffffff;
 }
 
 .module h2, .module caption, .inline-group h2 {
-  background: #db9a16;
+  background: #057a1a;
 }
 
 .module h2, .module caption, .inline-group h2 a {
-  color: #333;
+  color: #ffffff;
 }
