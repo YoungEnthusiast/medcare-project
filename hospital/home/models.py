@@ -30,7 +30,7 @@ class Appointment(models.Model):
     receptionist = models.CharField(max_length=15, blank=True, null=True)
     #receptionist = models.ForeignKey(Doctor, on_delete = models.SET_NULL, null=True)
     appointment_Id = models.CharField(
-		 max_length = 7,
+		 max_length = 8,
 		 null=True,
 		 editable=True,
 		 default=2021

@@ -13,6 +13,7 @@ from django.urls import reverse_lazy
 from datetime import date
 from django.views.generic import UpdateView
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 def showHome(request):
     return render(request, 'home/home.html')
@@ -153,11 +154,12 @@ def createAppointment(request):
         if form.is_valid():
             form.save()
             reg = Appointment.objects.filter(appointment_Id=2021)[0]
-            reg.appointment_Id = "MC" + str(random.randint(10000,99999))
+            reg.appointment_Id = "MCH" + str(random.randint(10000,99999))
             reg.receptionist = request.user.first_name
             reg.save()
             #patient = form.cleaned_data.get('patient')
             #doctor = form.cleaned_data.get('doctor')
+            receptionist = reg.receptionist
             appointment_id = reg.appointment_Id
             first_name = reg.patient.user.first_name
             patient_id = reg.patient.user.identifier
@@ -165,10 +167,10 @@ def createAppointment(request):
             send_mail(
                 'NEW PATIENT APPOINTMENT',
                 'You have been assigned to a new patient whose ID is: ' + str(patient_id) + '. The appointment ID is: ' + str(appointment_id) + '.',
-                'admin@buildqwik.ng',
+                'yustaoab@gmail.com',
                 [doc_email],
                 fail_silently=False,
-                #html_message = render_to_string('home/home1.html')
+                html_message = render_to_string('treatment/doc_appointment_email.html', {'receptionist': str(receptionist), 'first_name': str(first_name), 'patient_id': str(patient_id), 'appointment_id': str(appointment_id)})
             )
             messages.success(request, str(first_name) + "'s appointment has been added successfully")
         else:
