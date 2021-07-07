@@ -3,36 +3,36 @@ from .models import Patient, Doctor, Consultation, LabScientist, Pharmacist, Nur
 
 class PatientAdmin(admin.ModelAdmin):
     list_display = ['user']
-    search_fields = ['user__identifier', 'user__first_name', 'user__last_name']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_per_page = 10
 
 admin.site.register(Patient, PatientAdmin)
 
 class DoctorAdmin(admin.ModelAdmin):
     list_display = ['user', 'busy']
-    search_fields = ['user__identifier', 'user__first_name', 'user__last_name', 'busy']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name', 'busy']
     list_filter = ['busy']
     list_editable = ['busy']
     list_per_page = 10
 
 class LabScientistAdmin(admin.ModelAdmin):
     list_display = ['user']
-    search_fields = ['user__identifier', 'user__first_name', 'user__last_name']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_per_page = 10
 
 class NurseAdmin(admin.ModelAdmin):
     list_display = ['user']
-    search_fields = ['user__identifier', 'user__first_name', 'user__last_name']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_per_page = 10
 
 class PharmacistAdmin(admin.ModelAdmin):
     list_display = ['user']
-    search_fields = ['user__identifier', 'user__first_name', 'user__last_name']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_per_page = 10
 
 class ConsultationAdmin(admin.ModelAdmin):
     list_display = ['created', 'appointment', 'patient_symptoms', 'test_result', 'prescription']
-    search_fields = ['doctor__identifier', 'doctor__first_name', 'user__last_name', 'patient__identifier']
+    search_fields = ['doctor__username', 'doctor__first_name', 'user__last_name', 'patient__username']
     #list_filter = ['status']
     list_display_links = ['appointment']
     list_per_page = 10

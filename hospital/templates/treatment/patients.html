@@ -125,7 +125,7 @@
               {% for patient in patients_page_obj %}
                 <tr class="table-success">
                   <td>{{patient.user.created}}</td>
-                  <td><a class="text-warning" href="{% url 'show_patient' patient.id %}"><strong>{{patient.user.identifier}} | {{patient.user.first_name}} {{patient.user.last_name}}</strong></a></td>
+                  <td><a class="text-warning" href="{% url 'show_patient' patient.id %}"><strong>{{patient.user.username}} | {{patient.user.first_name}} {{patient.user.last_name}}</strong></a></td>
                   <td>{{patient.user.gender}}</td>
                   <td>{{patient.user.retainer}}</td>
                   <td>{{patient.user.blood_group}}</td>

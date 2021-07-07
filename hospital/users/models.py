@@ -10,7 +10,6 @@ class CustomUser(AbstractUser):
         ('Private', 'Private'),
 		('Family', 'Family'),
     ]
-    identifier = models.CharField(max_length=20, unique=True, null=True)
     phone_number = models.CharField(max_length=20, unique=False, null=True)
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
     address = models.CharField(max_length=200, null=True)
@@ -20,10 +19,8 @@ class CustomUser(AbstractUser):
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 
-    USERNAME_FIELD = 'identifier'
-
     def __str__(self):
-        return str(self.identifier)
+        return str(self.username)
 
     class Meta:
         ordering = ('-created',)

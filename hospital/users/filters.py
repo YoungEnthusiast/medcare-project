@@ -8,11 +8,11 @@ class PatientFilter(filters.FilterSet):
 
     class Meta:
         model = Patient
-        fields = ['user__identifier', 'user__first_name', 'user__last_name', 'user__retainer']
+        fields = ['user__username', 'user__first_name', 'user__last_name', 'user__retainer']
 
     def __init__(self, *args, **kwargs):
         super(PatientFilter, self).__init__(*args, **kwargs)
-        self.filters['user__identifier'].label="ID"
+        self.filters['user__username'].label="Identifier"
         self.filters['user__first_name'].label="First Name"
         self.filters['user__last_name'].label="Last Name"
         self.filters['user__retainer'].label="Retainer"

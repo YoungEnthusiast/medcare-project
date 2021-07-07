@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-  <title>{{user.identifier}}</title>
+  <title>{{user.username}}</title>
 {% endblock title %}
 
 {% block content %}
@@ -56,7 +56,7 @@
               <h5 class="card-title text-light">OnComing Patient ID</h5>
             </div>
             <div class="card-body">
-              <h3 class="card-title">{{next.patient.user.identifier}}</h3>
+              <h3 class="card-title">{{next.patient.user.username}}</h3>
             </div>
           </div>
         </div>

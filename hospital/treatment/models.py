@@ -8,7 +8,7 @@ class Patient(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return str(self.user.identifier)
+        return str(self.user.username)
 
     class Meta:
         ordering = ('user',)

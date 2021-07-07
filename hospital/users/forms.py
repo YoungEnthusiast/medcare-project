@@ -18,7 +18,6 @@ class CustomUserCreationForm(UserCreationForm):
     #username = forms.CharField(max_length=20)
     blood_group = forms.CharField(max_length=10)
     retainer = forms.ChoiceField(choices=RETAINER_CHOICES)
-    identifier = forms.CharField(max_length=20)
     phone_number = forms.CharField(label='Phone Number')
     gender = forms.ChoiceField(label='Gender', choices=GENDER_CHOICES, widget=forms.RadioSelect)
     age = forms.IntegerField()
@@ -38,7 +37,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'phone_number', 'gender', 'address', 'age', 'blood_group', 'retainer', 'identifier', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'gender', 'address', 'age', 'blood_group', 'retainer', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -46,7 +45,7 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['last_name'].label = 'Last Name'
         self.fields['email'].label = "Email Address"
         self.fields['email'].help_text = "This field is required. It must be a valid email address"
-        self.fields['identifier'].label = "ID"
+        self.fields['username'].label = "identifier"
         self.fields['password1'].help_text = "<ul><li>Be rest assured that your password will be encrypted (hidden). That means even the website developer will not be able to see it.</li><li>Your password can’t be too similar to your other personal information.<li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul>"
         self.fields['password2'].label = "Password Confirmation"
 
