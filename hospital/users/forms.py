@@ -15,7 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     email = forms.EmailField()
-    #username = forms.CharField(max_length=20)
+    username = forms.CharField(max_length=20)
     blood_group = forms.CharField(max_length=10)
     retainer = forms.ChoiceField(choices=RETAINER_CHOICES)
     phone_number = forms.CharField(label='Phone Number')
