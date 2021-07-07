@@ -17,7 +17,7 @@ class CustomUserAdmin(UserAdmin):
             (
                 '',
                 {
-                    'fields': ('blood_group', 'retainer', 'phone_number', 'gender', 'address', 'age',)
+                    'fields': ('username', 'blood_group', 'retainer', 'phone_number', 'gender', 'address', 'age',)
                 }
             )
         )
