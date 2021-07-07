@@ -13,6 +13,7 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=20, unique=False, null=True)
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
     address = models.CharField(max_length=200, null=True)
+    username = models.CharField(max_length=20, null=True, unique=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
     retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
