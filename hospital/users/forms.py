@@ -45,7 +45,6 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['last_name'].label = 'Last Name'
         self.fields['email'].label = "Email Address"
         self.fields['email'].help_text = "This field is required. It must be a valid email address"
-        self.fields['username'].label = "identifier"
         self.fields['password1'].help_text = "<ul><li>Be rest assured that your password will be encrypted (hidden). That means even the website developer will not be able to see it.</li><li>Your password can’t be too similar to your other personal information.<li>Your password must contain at least 8 characters.</li><li>Your password can’t be a commonly used password.</li><li>Your password can’t be entirely numeric.</li></ul>"
         self.fields['password2'].label = "Password Confirmation"
 
