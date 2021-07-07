@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 
-    USERNAME_FIELD = 'identifier'
+    #USERNAME_FIELD = 'identifier'
 
     def __str__(self):
         return str(self.identifier)
