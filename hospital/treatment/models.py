@@ -1,47 +1,156 @@
-#For views.py
-#from django.conf import settings
-#User = settings.AUTH_USER_MODEL
 from django.db import models
-from users.models import CustomUser
+from django.conf import settings
+from django.contrib.auth.models import User
 
 class Patient(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
+    GENDER_CHOICES = [
+		('Male','Male'),
+		('Female', 'Female')
+	]
+    RETAINER_CHOICES = [
+        ('Private', 'Private'),
+		('Family', 'Family'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=30, null=True)
+    phone_number = models.CharField(max_length=20, null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    address = models.CharField(max_length=200, null=True)
+    age = models.IntegerField(default=0, null=True)
+    blood_group = models.CharField(max_length=10, null=True)
+    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return str(self.user.username)
+        try:
+            return str(self.user.username)
+        except:
+            return str(self.id)
 
     class Meta:
         ordering = ('user',)
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'pk': self.pk})
+
 
 class Doctor(models.Model):
-    user  = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
+    GENDER_CHOICES = [
+		('Male','Male'),
+		('Female', 'Female')
+	]
+    RETAINER_CHOICES = [
+        ('Private', 'Private'),
+		('Family', 'Family'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    phone_number = models.CharField(max_length=20, unique=False, null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    address = models.CharField(max_length=200, null=True)
+    age = models.IntegerField(default=0, null=True)
+    blood_group = models.CharField(max_length=10, null=True)
+    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
     busy = models.BooleanField(max_length=5, default = False)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return "Dr " + str(self.user.last_name)
+        try:
+            return "Dr " + str(self.user.last_name)
+        except:
+            return str(self.id)
+
 
 class LabScientist(models.Model):
-    user  = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
+    GENDER_CHOICES = [
+        ('Male','Male'),
+        ('Female', 'Female')
+    ]
+    RETAINER_CHOICES = [
+        ('Private', 'Private'),
+        ('Family', 'Family'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    phone_number = models.CharField(max_length=20, unique=False, null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    address = models.CharField(max_length=200, null=True)
+    age = models.IntegerField(default=0, null=True)
+    blood_group = models.CharField(max_length=10, null=True)
+    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return str(self.user.last_name)
+        try:
+            return str(self.user.username)
+        except:
+            return str(self.id)
 
     class Meta:
         ordering = ('user',)
-        verbose_name = "Lab Technician"
-        verbose_name_plural = "Lab Technicians"
+
+class Meta:
+    ordering = ('user',)
+    verbose_name = "Lab Technician"
+    verbose_name_plural = "Lab Technicians"
 
 class Nurse(models.Model):
-    user  = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
+    GENDER_CHOICES = [
+		('Male','Male'),
+		('Female', 'Female')
+	]
+    RETAINER_CHOICES = [
+        ('Private', 'Private'),
+		('Family', 'Family'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    phone_number = models.CharField(max_length=20, unique=False, null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    address = models.CharField(max_length=200, null=True)
+    age = models.IntegerField(default=0, null=True)
+    blood_group = models.CharField(max_length=10, null=True)
+    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return str(self.user.last_name)
+        try:
+            return str(self.user.username)
+        except:
+            return str(self.id)
+
+    class Meta:
+        ordering = ('user',)
 
 class Pharmacist(models.Model):
-    user  = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
+    GENDER_CHOICES = [
+        ('Male','Male'),
+        ('Female', 'Female')
+    ]
+    RETAINER_CHOICES = [
+        ('Private', 'Private'),
+        ('Family', 'Family'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    phone_number = models.CharField(max_length=20, unique=False, null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    address = models.CharField(max_length=200, null=True)
+    age = models.IntegerField(default=0, null=True)
+    blood_group = models.CharField(max_length=10, null=True)
+    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return str(self.user.last_name)
+        try:
+            return str(self.user.username)
+        except:
+            return str(self.id)
+
+    class Meta:
+        ordering = ('user',)
 
 class Consultation(models.Model):
     appointment = models.ForeignKey('home.Appointment', on_delete = models.SET_NULL,unique = False, null=True)
@@ -56,5 +165,5 @@ class Consultation(models.Model):
         verbose_name = "Patients' History"
         verbose_name_plural = "Patients' Histories"
 
-    # def __str__(self):
-    #     return str(self.appointment.patient)
+    def __str__(self):
+        return str(self.appointment.patient)

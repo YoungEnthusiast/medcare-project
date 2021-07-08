@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Patient, Doctor, Consultation, LabScientist, Pharmacist, Nurse
 
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = ['user', 'first_name', 'last_name']
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_per_page = 10
 

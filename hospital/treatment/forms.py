@@ -1,6 +1,11 @@
 from django import forms
-from .models import Doctor, Consultation
-from users.models import CustomUser
+from .models import Patient, Doctor, Consultation
+from django import forms
+
+class PatientForm(forms.ModelForm):
+    class Meta:
+        model = Patient
+        fields = ['phone_number', 'blood_group', 'gender', 'address', 'age', 'retainer']
 
 class DoctorForm(forms.ModelForm):
     class Meta:

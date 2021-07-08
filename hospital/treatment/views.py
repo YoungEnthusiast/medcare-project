@@ -5,14 +5,15 @@ from .filters import ConsultationFilter
 from users.filters import PatientFilter
 from django.core.paginator import Paginator
 from django.contrib import messages
+from users.models import Person
 from .models import Doctor, Consultation, Patient
-from .forms import DoctorForm, ConsultationForm
+from .forms import DoctorForm, ConsultationForm, PatientForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
-from users.models import CustomUser
-from users.forms import ProfileEditForm
+#from users.models import AdaptedUser
+#from users.forms import PersonEditForm
 
 @login_required
 def showPatients(request):
@@ -33,10 +34,10 @@ def showPatients(request):
 @login_required
 @permission_required('home.change_patient')
 def updatePatient(request, id):
-    patient = CustomUser.objects.get(id=id)
-    form = ProfileEditForm(instance=patient)
+    patient = Person.objects.get(id=id)
+    form = PatientForm(instance=patient)
     if request.method=='POST':
-        form = ProfileEditForm(request.POST, instance=patient)
+        form = PatientForm(request.POST, instance=patient)
         if form.is_valid():
             form.save()
             messages.success(request, "The patient has been modified successfully")
@@ -122,18 +123,9 @@ def createConsultation(request):
         form = ConsultationForm(request.POST or None)
         if form.is_valid():
             form.save()
-            #patient = form.cleaned_data.get('patient')
-            #email = form.cleaned_data.get('email')
-            # send_mail(
-            #     'Contact BuildQwik',
-            #     'A message was sent by ' + name + '. Please log in to admin panel to read message',
-            #     'admin@buildqwik.ng',
-            #     [email, 'hello@buildqwik.ng'],
-            #     fail_silently=False,
-            #     #html_message = render_to_string('home/home1.html')
-            # )
-            #messages.success(request, str(patient) + "'s appointment has been added successfully")
-            messages.success(request, "New appointment created successfully")
+            patient = form.cleaned_data.get('patient')
+            email = form.cleaned_data.get('email')
+            messages.success(request, str(patient) + "'s appointment has been added successfully")
         else:
             return redirect('new_history')
     return render(request, 'treatment/consultation_form.html', {'form': form})

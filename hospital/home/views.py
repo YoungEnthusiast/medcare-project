@@ -29,14 +29,14 @@ def showContact(request):
             form.save()
             name = form.cleaned_data.get('name')
             email = form.cleaned_data.get('email')
-            # send_mail(
-            #     'Contact BuildQwik',
-            #     'A message was sent by ' + name + '. Please log in to admin panel to read message',
-            #     'admin@buildqwik.ng',
-            #     [email, 'hello@buildqwik.ng'],
-            #     fail_silently=False,
-            #     #html_message = render_to_string('home/home1.html')
-            # )
+            send_mail(
+                'Contact Med Care',
+                'A message was sent by ' + name + '. Please log in to admin panel to read message',
+                'yustaoab@gmail.com',
+                [email],
+                fail_silently=False,
+                #html_message = render_to_string('home/home1.html')
+            )
             messages.success(request, str(name) + ", your message will receive attention shortly")
         else:
             return redirect('contact')
@@ -66,7 +66,7 @@ def showReceptionistBoard(request):
     try:
         doc3 = Doctor.objects.filter(busy=0)[2]
     except:
-        doc3 = "---"
+        doc3 = " "
     try:
         next = Appointment.objects.filter(status = 0).order_by('created')[0]
     except:
@@ -162,7 +162,7 @@ def createAppointment(request):
             receptionist = reg.receptionist
             appointment_id = reg.appointment_Id
             first_name = reg.patient.user.first_name
-            patient_id = reg.patient.user.identifier
+            patient_id = reg.patient.user.username
             doc_email = reg.doctor.user.email
             send_mail(
                 'NEW PATIENT APPOINTMENT',
@@ -194,27 +194,81 @@ def showInvoices(request):
     context['total_invoices'] = total_invoices
     return render(request, 'home/invoices.html', context=context)
 
-# @login_required
-# def updateInvoice(request, id):
-#     invoice = Invoice.objects.get(id=id)
-#     form = InvoiceForm(instance=invoice)
-#     if request.method=='POST':
-#         form = InvoiceForm(request.POST, instance=invoice)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "The invoice has been modified successfully")
-#             return redirect('invoices')
-#     return render(request, 'home/invoice_form_update.html', {'form': form, 'invoice': invoice})
+@login_required
+def updateInvoice(request, id):
+    invoice = Invoice.objects.get(id=id)
+    form = InvoiceForm(instance=invoice)
+    if request.method=='POST':
+        form = InvoiceForm(request.POST, instance=invoice)
+        if form.is_valid():
+            form.save()
+            receptionist = form.cleaned_data.get('receptionist')
+            appointment = form.cleaned_data.get('appointment')
+            admin = form.cleaned_data.get('admin')
+            appointment_Id = appointment.appointment_Id
+            patient_id = appointment.patient
+            rec_name = receptionist.user.first_name
+            rec_email = receptionist.user.email
+            admin_name = admin.user.first_name
+            send_mail(
+                'INVOICE CONFIRMED',
+                '',
+                'yustaoab@gmail.com',
+                [rec_email],
+                fail_silently=False,
+                html_message = render_to_string('home/invoice_confirmed_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name)})
+            )
+            messages.success(request, "The invoice has been modified successfully")
+            return redirect('invoices')
+    return render(request, 'home/invoice_form_update.html', {'form': form, 'invoice': invoice})
 
-class InvoiceUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
-#class InvoiceUpdateView(SuccessMessageMixin, UpdateView):
-    model = Invoice
-    template_name = 'home/invoice_form_update.html'
-    success_url = reverse_lazy('invoices_adm')
-    #success_message = "%(username)s was created"
-    success_message = "The invoice has been confirmed successfully"
-    fields = ('confirmation',)
-    permission_required = 'home.change_invoice'
+@login_required
+def updateInvoiceAdm(request, id):
+    invoice = Invoice.objects.get(id=id)
+    form = InvoiceForm(instance=invoice)
+    if request.method=='POST':
+        form = InvoiceForm(request.POST, instance=invoice)
+        if form.is_valid():
+            form.save()
+            receptionist = form.cleaned_data.get('receptionist')
+            appointment = form.cleaned_data.get('appointment')
+            admin = form.cleaned_data.get('admin')
+            appointment_Id = appointment.appointment_Id
+            patient_id = appointment.patient
+            rec_name = receptionist.user.first_name
+            rec_email = receptionist.user.email
+            admin_name = admin.user.first_name
+            send_mail(
+                'INVOICE CONFIRMED',
+                '',
+                'yustaoab@gmail.com',
+                [rec_email],
+                fail_silently=False,
+                html_message = render_to_string('home/invoice_confirmed_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name)})
+            )
+            messages.success(request, "The invoice has been confirmed successfully")
+            return redirect('invoices')
+    return render(request, 'home/invoice_form_update.html', {'form': form, 'invoice': invoice})
+
+# class InvoiceUpdateViewRec(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+# #class InvoiceUpdateView(SuccessMessageMixin, UpdateView):
+#     model = Invoice
+#     template_name = 'home/invoice_form_update.html'
+#     success_url = reverse_lazy('invoices')
+#     #success_message = "%(username)s was created"
+#     success_message = "The invoice has been confirmed successfully"
+#     fields = ('confirmation',)
+#     permission_required = 'home.change_invoice'
+#
+# class InvoiceUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+# #class InvoiceUpdateView(SuccessMessageMixin, UpdateView):
+#     model = Invoice
+#     template_name = 'home/invoice_form_update.html'
+#     success_url = reverse_lazy('invoices_adm')
+#     #success_message = "%(username)s was created"
+#     success_message = "The invoice has been confirmed successfully"
+#     fields = ('confirmation',)
+#     permission_required = 'home.change_invoice'
 
 @login_required
 @permission_required('home.add_invoice')
@@ -225,19 +279,31 @@ def issueInvoice(request):
         if form.is_valid():
             form.save()
             reg = Invoice.objects.all()[0]
-            reg.receptionist = request.user.first_name
+            #reg.receptionist = request.user.first_name
             reg.save()
+            receptionist = form.cleaned_data.get('receptionist')
             appointment = form.cleaned_data.get('appointment')
-            #email = form.cleaned_data.get('email')
-            # send_mail(
-            #     'Contact BuildQwik',
-            #     'A message was sent by ' + name + '. Please log in to admin panel to read message',
-            #     'admin@buildqwik.ng',
-            #     [email, 'hello@buildqwik.ng'],
-            #     fail_silently=False,
-            #     #html_message = render_to_string('home/home1.html')
-            # )
+            admin = form.cleaned_data.get('admin')
+            appointment_Id = appointment.appointment_Id
+            patient_id = appointment.patient
+            rec_name = receptionist.user.first_name
+            total = reg.total()
+            try:
+                admin_email = admin.user.email
+                admin_name = admin.user.first_name
+            except:
+                pass
+            if reg.confirmation == False:
+                send_mail(
+                    'PLEASE CONFIRM INVOICE',
+                    '',
+                    'yustaoab@gmail.com',
+                    [admin_email],
+                    fail_silently=False,
+                    html_message = render_to_string('home/request_confirm_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name), 'total': str(total)})
+                )
             messages.success(request, str(appointment.patient.user.first_name) + "'s invoice has been saved successfully")
+            return redirect('invoices')
         else:
             return redirect('invoice')
     return render(request, 'home/invoice_form.html', {'form': form})

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Contact, Appointment, Invoice
-#from django.core import validators
+from django.core import validators
 
 class ContactForm(forms.ModelForm):
     phone_number = forms.CharField(label='Phone Number')
@@ -21,4 +21,4 @@ class InvoiceForm(forms.ModelForm):
 
     class Meta:
         model = Invoice
-        fields = ['appointment', 'blood_test', 'admission', 'injection', 'medicine', 'confirmation']
+        fields = ['receptionist', 'appointment', 'blood_test', 'admission', 'injection', 'medicine', 'confirmation', 'admin']

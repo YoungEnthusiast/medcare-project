@@ -1,5 +1,6 @@
 from django.db import models
-from users.models import CustomUser
+from django.conf import settings
+from django.contrib.auth.models import User
 from treatment.models import Patient, Doctor
 
 class Contact(models.Model):
@@ -24,11 +25,34 @@ class Contact(models.Model):
         return str(self.name)
 
 class Receptionist(models.Model):
-	user  = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
+    GENDER_CHOICES = [
+		('Male','Male'),
+		('Female', 'Female')
+	]
+    RETAINER_CHOICES = [
+        ('Private', 'Private'),
+		('Family', 'Family'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    phone_number = models.CharField(max_length=20, unique=False, null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    address = models.CharField(max_length=200, null=True)
+    age = models.IntegerField(default=0, null=True)
+    blood_group = models.CharField(max_length=10, null=True)
+    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now=True, null=True)
 
+    def __str__(self):
+        try:
+            return str(self.user.username)
+        except:
+            return str(self.id)
+
+    class Meta:
+        ordering = ('user',)
 class Appointment(models.Model):
     receptionist = models.CharField(max_length=15, blank=True, null=True)
-    #receptionist = models.ForeignKey(Doctor, on_delete = models.SET_NULL, null=True)
     appointment_Id = models.CharField(
 		 max_length = 8,
 		 null=True,
@@ -47,8 +71,43 @@ class Appointment(models.Model):
     def __str__(self):
         return str(self.appointment_Id)
 
+class HR(models.Model):
+    GENDER_CHOICES = [
+		('Male','Male'),
+		('Female', 'Female')
+	]
+    RETAINER_CHOICES = [
+        ('Private', 'Private'),
+		('Family', 'Family'),
+    ]
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    phone_number = models.CharField(max_length=20, unique=False, null=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
+    address = models.CharField(max_length=200, null=True)
+    age = models.IntegerField(default=0, null=True)
+    blood_group = models.CharField(max_length=10, null=True)
+    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    updated = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        try:
+            return str(self.user.username)
+        except:
+            return str(self.id)
+
+    class Meta:
+        ordering = ('user',)
+
+    class Meta:
+        ordering = ('user',)
+        verbose_name = 'Admin'
+        verbose_name_plural = 'Admins'
+
+
 class Invoice(models.Model):
-    receptionist = models.CharField(max_length=15, blank=True, null=True)
+    receptionist = models.ForeignKey(Receptionist, on_delete = models.SET_NULL, null=True)
+    admin = models.ForeignKey(HR, on_delete = models.SET_NULL, null=True, blank=True)
     appointment = models.ForeignKey(Appointment, on_delete = models.SET_NULL, unique = False, null=True)
     blood_test = models.IntegerField(null=True, default=0)
     admission = models.IntegerField(null=True, default=0)
@@ -95,12 +154,3 @@ class Invoice(models.Model):
             return self.blood_test
         elif self.blood_test != None and self.admission != None and self.injection != None and self.medicine !=None:
             return self.blood_test + self.admission + self.injection + self.medicine
-
-
-class HR(models.Model):
-    user  = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True)
-
-    class Meta:
-        ordering = ('user',)
-        verbose_name = 'Admin'
-        verbose_name_plural = 'Admins'

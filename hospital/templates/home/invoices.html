@@ -67,6 +67,7 @@
                   <th>DATE RECORDED</th>
                   <th>RECEPTIONIST</th>
                   <th>APPOINTMENT ID</th>
+                  <th>PATIENT ID</th>
                   <th>BLOOD TEST (₦)</th>
                   <th>ADMISSION (₦)</th>
                   <th>INJECTION (₦)</th>
@@ -74,6 +75,7 @@
                   <th>TOTAL (₦)</th>
                   <th>CONFIRMATION</th>
                   <th>DATE CONFIRMED</th>
+                  <th>CONFIRMED BY</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -84,6 +86,7 @@
                     <td>{{invoice.created}}</td>
                     <td>{{invoice.receptionist}}</td>
                     <td>{{invoice.appointment}}</td>
+                    <td>{{invoice.appointment.patient}}</td>
                     <td>{{invoice.blood_test|intcomma}}</td>
                     <td>{{invoice.admission|intcomma}}</td>
                     <td>{{invoice.injection|intcomma}}</td>
@@ -91,6 +94,7 @@
                     <td>{{invoice.total|intcomma}}</td>
                     <td>Confirmed</td>
                     <td>{{invoice.updated}}</td>
+                    <td>{{invoice.admin}}</td>
                     <td class="text-center"><a href="invoices/update/{{invoice.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
                     <td><a href="{% url 'show_invoice' invoice.id %}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>View Invoice</strong></button></a></td>
                   </tr>
@@ -99,13 +103,15 @@
                     <td>{{invoice.created}}</td>
                     <td>{{invoice.receptionist}}</td>
                     <td>{{invoice.appointment}}</td>
+                    <td>{{invoice.appointment.patient}}</td>
                     <td>{{invoice.blood_test|intcomma}}</td>
                     <td>{{invoice.admission|intcomma}}</td>
                     <td>{{invoice.injection|intcomma}}</td>
                     <td>{{invoice.medicine|intcomma}}</td>
                     <td>{{invoice.total|intcomma}}</td>
                     <td>Unconfirmed</td>
-                    <td>{{invoice.updated}}</td>
+                    <td></td>
+                    <td></td>
                     <td class="text-center"><a href="invoices/update/{{invoice.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
                     <td><a href="{% url 'show_invoice' invoice.id %}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>View Invoice</strong></button></a></td>
                   </tr>
