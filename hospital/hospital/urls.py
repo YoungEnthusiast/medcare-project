@@ -25,7 +25,7 @@ from django.conf.urls.static import static
 # handler502 = 'home.views.handler502'
 
 urlpatterns = [
-    path('a-m-n/', admin.site.urls),
+    path('adm/', admin.site.urls),
     path('', include('home.urls')),
     path('', include('users.urls')),
     path('', include('treatment.urls')),
