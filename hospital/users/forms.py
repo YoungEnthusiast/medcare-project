@@ -75,7 +75,7 @@ class PersonEditForm(forms.ModelForm):
     # email = forms.EmailField()
     # username = forms.CharField(max_length=20)
     blood_group = forms.CharField(max_length=10)
-    folder_type= forms.ChoiceField(choices=FOLDER_CHOICES)
+    retainer= forms.ChoiceField(choices=FOLDER_CHOICES)
     phone_number = forms.CharField(label='Phone Number')
     gender = forms.ChoiceField(label='Gender', choices=GENDER_CHOICES, widget=forms.RadioSelect)
     age = forms.IntegerField()
@@ -84,9 +84,9 @@ class PersonEditForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        fields = ['phone_number', 'blood_group', 'gender', 'address', 'age', 'folder_type', 'role']
+        fields = ['phone_number', 'blood_group', 'gender', 'address', 'age', 'retainer', 'role']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['phone_number'].help_text = "Phone Number"
         self.fields['blood_group'].label = "Blood Group"
-        self.fields['folder_type'].label = "Folder Type"
+        self.fields['retainer'].label = "Folder Type"

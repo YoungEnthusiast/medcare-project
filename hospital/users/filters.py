@@ -7,7 +7,7 @@ class PatientFilter(filters.FilterSet):
 
     class Meta:
         model = Patient
-        fields = ['user__username', 'user__first_name', 'user__last_name', 'folder_type']
+        fields = ['user__username', 'user__first_name', 'user__last_name', 'retainer']
 
     def __init__(self, *args, **kwargs):
         super(PatientFilter, self).__init__(*args, **kwargs)

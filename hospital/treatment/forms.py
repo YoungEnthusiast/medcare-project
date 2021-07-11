@@ -5,7 +5,7 @@ from django import forms
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = ['phone_number', 'blood_group', 'gender', 'address', 'age', 'folder_type']
+        fields = ['phone_number', 'blood_group', 'gender', 'address', 'age', 'retainer']
 
 class DoctorForm(forms.ModelForm):
     class Meta:

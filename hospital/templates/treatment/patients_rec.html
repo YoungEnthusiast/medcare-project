@@ -67,7 +67,7 @@
                   <td>{{patient.created}}</td>
                   <td><a class="text-warning" href="{% url 'show_patient' patient.id %}"><strong>{{patient.user.username}} | {{patient.user.first_name}} {{patient.user.last_name}}</strong></a></td>
                   <td>{{patient.gender}}</td>
-                  <td>{{patient.folder_type}}</td>
+                  <td>{{patient.retainer}}</td>
                   <td>{{patient.blood_group}}</td>
                   <td class="text-center"><a href="patients/update/{{patient.user.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
                 </tr>

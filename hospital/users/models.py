@@ -34,7 +34,7 @@ class Person(models.Model):
     address = models.CharField(max_length=200, null=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
-    folder_type = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
+    retainer = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Patient', null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
