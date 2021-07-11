@@ -14,3 +14,4 @@ class PatientFilter(filters.FilterSet):
         self.filters['user__username'].label="ID"
         self.filters['user__first_name'].label="First Name"
         self.filters['user__last_name'].label="Last Name"
+        self.filters['retainer'].label="Folder Type"

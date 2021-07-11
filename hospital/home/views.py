@@ -21,6 +21,36 @@ def showHome(request):
 def showAbout(request):
     return render(request, 'home/about.html')
 
+def handler400(request, exception):
+    context = {}
+    response = render(request, "home/400.html", context=context)
+    response.status_code = 400
+    return response
+
+def handler403(request, exception):
+    context = {}
+    response = render(request, "home/403.html", context=context)
+    response.status_code = 403
+    return response
+
+def handler404(request, exception):
+    context = {}
+    response = render(request, "home/404.html", context=context)
+    response.status_code = 404
+    return response
+
+def handler500(request):
+    context = {}
+    response = render(request, "home/500.html", context=context)
+    response.status_code = 500
+    return response
+
+def handler502(request, exception):
+    context = {}
+    response = render(request, "home/502.html", context=context)
+    response.status_code = 502
+    return response
+
 def showContact(request):
     form = ContactForm()
     if request.method == 'POST':
