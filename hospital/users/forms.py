@@ -40,7 +40,7 @@ class UserEditForm(UserChangeForm):
     password = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden'}))
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'password']
+        fields = ['first_name', 'last_name', 'email', 'password']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['first_name'].label = "First Name"
