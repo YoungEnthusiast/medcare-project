@@ -71,6 +71,7 @@
                   <th>PATIENT'S ID & NAME</th>
                   <th>DOCTOR</th>
                   <th>COMPLAINTS</th>
+                  <th>LAB TECHNICIAN</th>
                   <th>TEST RESULT</th>
                   <th>PRESCRIPTION</th>
                   <th></th>
@@ -84,6 +85,7 @@
                     <td><strong><a class="text-warning" href="{% url 'show_patient' consultation.appointment.patient.id %}">{{consultation.appointment.patient}} | {{consultation.appointment.patient.user.first_name}} {{consultation.appointment.patient.user.last_name}}</a></strong></td>
                     <td>{{consultation.appointment.doctor}}</td>
                     <td>{{consultation.patient_symptoms}}</td>
+                    <td>{{consultation.lab_technician}}</td>
                     <td>{{consultation.test_result}}</td>
                     <td>{{consultation.prescription}}</td>
                     <td class="text-center"><a href="patients-histories/update/{{consultation.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>

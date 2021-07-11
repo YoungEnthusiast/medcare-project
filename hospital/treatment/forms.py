@@ -18,7 +18,7 @@ class ConsultationForm(forms.ModelForm):
     prescription = forms.CharField(required=False, label='Prescription', widget=forms.Textarea)
     class Meta:
         model = Consultation
-        fields = ['appointment', 'patient_symptoms', 'test_result', 'prescription', 'lab_technician']
+        fields = ['appointment', 'patient_symptoms', 'lab_technician', 'test_result', 'prescription']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
