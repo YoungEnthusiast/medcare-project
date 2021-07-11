@@ -43,17 +43,6 @@ def editProfile(request, **kwargs):
             new_person = Person.objects.get(user=request.user)
             new_person.save()
 
-
-            # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-            # phone_number = models.CharField(max_length=20, unique=False, null=True)
-            # gender = models.CharField(max_length=6, choices=GENDER_CHOICES, null=True)
-            # address = models.CharField(max_length=200, null=True)
-            # age = models.IntegerField(default=0, null=True)
-            # blood_group = models.CharField(max_length=10, null=True)
-            # retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
-            # role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Patient', null=True)
-            # created = models.DateTimeField(auto_now_add=True, null=True)
-            # updated = models.DateTimeField(auto_now=True, null=True)
             if new_person.role == "Patient":
                 new_patient = Patient()
                 new_patient.user = new_person.user

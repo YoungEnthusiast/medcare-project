@@ -2,6 +2,16 @@
 {% load static %}
 
 {% block branding %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-233L1457BS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-233L1457BS');
+    </script>
+    
   <h1 id="head">
     <img src="{% static 'img/logo.jpg' %}" width="50" height="60" class="logo" alt="Med Care">  <strong>Med Care Admin Area</strong>
   </h1>

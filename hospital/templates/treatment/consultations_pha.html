@@ -7,31 +7,15 @@
 {% block content %}
 {% load home_tags %}
 <br>
-{% if 'doctor-dashboard' in request.path %}
   <div class="sidebar">
     <br>
     <br>
     <br>
     <br>
   <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
-  <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
-  <a href="{% url 'appointments_doc' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
-  <a href="{% url 'consultations' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
-  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create History</a>
-  <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
-
+  <a href="{% url 'patients_pha' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'consultations_pha' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
   </div>
-{% else %}
-  <div class="sidebar">
-    <br>
-    <br>
-    <br>
-    <br>
-  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
-  <a href="{% url 'patients_lab' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
-  <a href="{% url 'consultations' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
-  </div>
-{% endif %}
 
   <section class="main">
     {% include 'partials/_alerts.html' %}
@@ -73,7 +57,6 @@
                   <th>COMPLAINTS</th>
                   <th>TEST RESULT</th>
                   <th>PRESCRIPTION</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -86,7 +69,6 @@
                     <td>{{consultation.patient_symptoms}}</td>
                     <td>{{consultation.test_result}}</td>
                     <td>{{consultation.prescription}}</td>
-                    <td class="text-center"><a href="patients-histories/update/{{consultation.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
                   </tr>
               {% endfor %}
               </tbody>

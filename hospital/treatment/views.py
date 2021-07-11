@@ -14,9 +14,11 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 #from users.models import AdaptedUser
 #from users.forms import PersonEditForm
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 @login_required
-def showPatients(request):
+def showPatientsRec(request):
     context = {}
     filtered_patients = PatientFilter(
         request.GET,
@@ -29,7 +31,87 @@ def showPatients(request):
     context['patients_page_obj'] = patients_page_obj
     total_patients = filtered_patients.qs.count()
     context['total_patients'] = total_patients
-    return render(request, 'treatment/patients.html', context=context)
+    return render(request, 'treatment/patients_rec.html', context=context)
+
+@login_required
+def showPatientsDoc(request):
+    context = {}
+    filtered_patients = PatientFilter(
+        request.GET,
+        queryset = Patient.objects.all()
+    )
+    context['filtered_patients'] = filtered_patients
+    paginated_filtered_patients = Paginator(filtered_patients.qs, 10)
+    page_number = request.GET.get('page')
+    patients_page_obj = paginated_filtered_patients.get_page(page_number)
+    context['patients_page_obj'] = patients_page_obj
+    total_patients = filtered_patients.qs.count()
+    context['total_patients'] = total_patients
+    return render(request, 'treatment/patients_doc.html', context=context)
+
+@login_required
+def showPatientsLab(request):
+    context = {}
+    filtered_patients = PatientFilter(
+        request.GET,
+        queryset = Patient.objects.all()
+    )
+    context['filtered_patients'] = filtered_patients
+    paginated_filtered_patients = Paginator(filtered_patients.qs, 10)
+    page_number = request.GET.get('page')
+    patients_page_obj = paginated_filtered_patients.get_page(page_number)
+    context['patients_page_obj'] = patients_page_obj
+    total_patients = filtered_patients.qs.count()
+    context['total_patients'] = total_patients
+    return render(request, 'treatment/patients_lab.html', context=context)
+
+@login_required
+def showPatientsNur(request):
+    context = {}
+    filtered_patients = PatientFilter(
+        request.GET,
+        queryset = Patient.objects.all()
+    )
+    context['filtered_patients'] = filtered_patients
+    paginated_filtered_patients = Paginator(filtered_patients.qs, 10)
+    page_number = request.GET.get('page')
+    patients_page_obj = paginated_filtered_patients.get_page(page_number)
+    context['patients_page_obj'] = patients_page_obj
+    total_patients = filtered_patients.qs.count()
+    context['total_patients'] = total_patients
+    return render(request, 'treatment/patients_nur.html', context=context)
+
+@login_required
+def showPatientsPha(request):
+    context = {}
+    filtered_patients = PatientFilter(
+        request.GET,
+        queryset = Patient.objects.all()
+    )
+    context['filtered_patients'] = filtered_patients
+    paginated_filtered_patients = Paginator(filtered_patients.qs, 10)
+    page_number = request.GET.get('page')
+    patients_page_obj = paginated_filtered_patients.get_page(page_number)
+    context['patients_page_obj'] = patients_page_obj
+    total_patients = filtered_patients.qs.count()
+    context['total_patients'] = total_patients
+    return render(request, 'treatment/patients_pha.html', context=context)
+
+@login_required
+def showPatientsAdm(request):
+    context = {}
+    filtered_patients = PatientFilter(
+        request.GET,
+        queryset = Patient.objects.all()
+    )
+    context['filtered_patients'] = filtered_patients
+    paginated_filtered_patients = Paginator(filtered_patients.qs, 10)
+    page_number = request.GET.get('page')
+    patients_page_obj = paginated_filtered_patients.get_page(page_number)
+    context['patients_page_obj'] = patients_page_obj
+    total_patients = filtered_patients.qs.count()
+    context['total_patients'] = total_patients
+    return render(request, 'treatment/patients_adm.html', context=context)
 
 @login_required
 @permission_required('home.change_patient')
@@ -112,8 +194,91 @@ def showConsultations(request):
         context['total_consultations'] = total_consultations
         return render(request, 'treatment/consultations.html', context=context)
     else:
-        return render(request, 'treatment/consultations0.html')
+        return render(request, 'treatment/consultation0.html')
 
+@login_required
+@permission_required('treatment.view_consultation')
+def showConsultationsDoc(request):
+    consultations = Consultation.objects.all().count()
+    if consultations > 0:
+        context = {}
+        filtered_consultations = ConsultationFilter(
+            request.GET,
+            queryset = Consultation.objects.all()
+        )
+        context['filtered_consultations'] = filtered_consultations
+        paginated_filtered_consultations = Paginator(filtered_consultations.qs, 10)
+        page_number = request.GET.get('page')
+        consultations_page_obj = paginated_filtered_consultations.get_page(page_number)
+        context['consultations_page_obj'] = consultations_page_obj
+        total_consultations = filtered_consultations.qs.count()
+        context['total_consultations'] = total_consultations
+        return render(request, 'treatment/consultations_doc.html', context=context)
+    else:
+        return render(request, 'treatment/consultations_doc0.html')
+
+@login_required
+@permission_required('treatment.view_consultation')
+def showConsultationsLab(request):
+    consultations = Consultation.objects.all().count()
+    if consultations > 0:
+        context = {}
+        filtered_consultations = ConsultationFilter(
+            request.GET,
+            queryset = Consultation.objects.all()
+        )
+        context['filtered_consultations'] = filtered_consultations
+        paginated_filtered_consultations = Paginator(filtered_consultations.qs, 10)
+        page_number = request.GET.get('page')
+        consultations_page_obj = paginated_filtered_consultations.get_page(page_number)
+        context['consultations_page_obj'] = consultations_page_obj
+        total_consultations = filtered_consultations.qs.count()
+        context['total_consultations'] = total_consultations
+        return render(request, 'treatment/consultations_lab.html', context=context)
+    else:
+        return render(request, 'treatment/consultations_lab0.html')
+
+@login_required
+@permission_required('treatment.view_consultation')
+def showConsultationsNur(request):
+    consultations = Consultation.objects.all().count()
+    if consultations > 0:
+        context = {}
+        filtered_consultations = ConsultationFilter(
+            request.GET,
+            queryset = Consultation.objects.all()
+        )
+        context['filtered_consultations'] = filtered_consultations
+        paginated_filtered_consultations = Paginator(filtered_consultations.qs, 10)
+        page_number = request.GET.get('page')
+        consultations_page_obj = paginated_filtered_consultations.get_page(page_number)
+        context['consultations_page_obj'] = consultations_page_obj
+        total_consultations = filtered_consultations.qs.count()
+        context['total_consultations'] = total_consultations
+        return render(request, 'treatment/consultations_nur.html', context=context)
+    else:
+        return render(request, 'treatment/consultations_nur0.html')
+
+@login_required
+@permission_required('treatment.view_consultation')
+def showConsultationsPha(request):
+    consultations = Consultation.objects.all().count()
+    if consultations > 0:
+        context = {}
+        filtered_consultations = ConsultationFilter(
+            request.GET,
+            queryset = Consultation.objects.all()
+        )
+        context['filtered_consultations'] = filtered_consultations
+        paginated_filtered_consultations = Paginator(filtered_consultations.qs, 10)
+        page_number = request.GET.get('page')
+        consultations_page_obj = paginated_filtered_consultations.get_page(page_number)
+        context['consultations_page_obj'] = consultations_page_obj
+        total_consultations = filtered_consultations.qs.count()
+        context['total_consultations'] = total_consultations
+        return render(request, 'treatment/consultations_pha.html', context=context)
+    else:
+        return render(request, 'treatment/consultations_pha.html')
 
 @login_required
 @permission_required('treatment.add_consultation')
@@ -123,8 +288,23 @@ def createConsultation(request):
         form = ConsultationForm(request.POST or None)
         if form.is_valid():
             form.save()
-            patient = form.cleaned_data.get('patient')
-            email = form.cleaned_data.get('email')
+            doctor = request.user
+            doctor_name = doctor.last_name
+            appointment = form.cleaned_data.get('appointment')
+            lab_technician = form.cleaned_data.get('lab_technician')
+            lab_technician_name = lab_technician.user.first_name
+            lab_technician_email = lab_technician.user.email
+            appointment_Id = appointment.appointment_Id
+            patient_id = appointment.patient
+            patient = appointment.patient.first_name
+            send_mail(
+                'NEW MESSAGE FROM DOCTOR',
+                '',
+                'yustaoab@gmail.com',
+                [lab_technician_email],
+                fail_silently=False,
+                html_message = render_to_string('treatment/doc_lab_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'doctor_name': str(doctor_name), 'lab_technician_name': str(lab_technician_name), 'appointment_Id': str(appointment_Id)})
+            )
             messages.success(request, str(patient) + "'s appointment has been added successfully")
         else:
             return redirect('new_history')
@@ -180,7 +360,7 @@ def showPharmacistBoard(request):
 @login_required
 @permission_required('treatment.change_consultation')
 @permission_required('treatment.view_consultation')
-def updateConsultation(request, id):
+def updateConsultationDoc(request, id):
     consultation = Consultation.objects.get(id=id)
     form = ConsultationForm(instance=consultation)
     if request.method=='POST':
@@ -188,8 +368,8 @@ def updateConsultation(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "The medical history has been modified successfully")
-            return redirect('consultations')
-    return render(request, 'treatment/consultation_form_update.html', {'form': form, 'consultation': consultation})
+            return redirect('consultations_doc')
+    return render(request, 'treatment/consultation_form_update_doc.html', {'form': form, 'consultation': consultation})
 
 @login_required
 @permission_required('treatment.change_consultation')
@@ -201,6 +381,22 @@ def updateConsultationLab(request, id):
         form = ConsultationForm(request.POST, instance=consultation)
         if form.is_valid():
             form.save()
+            lab_technician = request.user
+            lab_technician_name = lab_technician.first_name
+            appointment = form.cleaned_data.get('appointment')
+            appointment_Id = appointment.appointment_Id
+            patient_id = appointment.patient
+            patient = appointment.patient.first_name
+            doctor_name = appointment.doctor
+            doctor_email = appointment.doctor.user.email
+            send_mail(
+                'TEST RESULT FROM LABORATORY',
+                '',
+                'yustaoab@gmail.com',
+                [doctor_email],
+                fail_silently=False,
+                html_message = render_to_string('treatment/lab_doc_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'doctor_name': str(doctor_name), 'lab_technician_name': str(lab_technician_name)})
+            )
             messages.success(request, "The medical history has been modified successfully")
             return redirect('consultations_lab')
-    return render(request, 'treatment/consultation_form_update.html', {'form': form, 'consultation': consultation})
+    return render(request, 'treatment/consultation_form_update_lab.html', {'form': form, 'consultation': consultation})

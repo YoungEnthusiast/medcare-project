@@ -7,21 +7,6 @@
 {% block content %}
 {% load home_tags %}
 <br>
-{% if 'doctor-dashboard' in request.path %}
-  <div class="sidebar">
-    <br>
-    <br>
-    <br>
-    <br>
-  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
-  <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
-  <a href="{% url 'appointments_doc' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
-  <a href="{% url 'consultations' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
-  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create History</a>
-  <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
-
-  </div>
-{% else %}
   <div class="sidebar">
     <br>
     <br>
@@ -29,9 +14,8 @@
     <br>
   <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
   <a href="{% url 'patients_lab' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
-  <a href="{% url 'consultations' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
+  <a href="{% url 'consultations_lab' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
   </div>
-{% endif %}
 
   <section class="main">
     {% include 'partials/_alerts.html' %}
@@ -81,7 +65,7 @@
                   <tr class="table-success">
                     <td>{{consultation.created}}</td>
                     <td>{{consultation.appointment.appointment_Id}}</td>
-                    <td><strong><a class="text-warning" href="{% url 'show_patient' consultation.appointment.patient.id %}">{{consultation.appointment.patient}} | {{consultation.appointment.patient.user.first_name}} {{consultation.appointment.patient.user.last_name}}</a></strong></td>
+                    <td><strong>{{consultation.appointment.patient}} | {{consultation.appointment.patient.user.first_name}} {{consultation.appointment.patient.user.last_name}}</strong></td>
                     <td>{{consultation.appointment.doctor}}</td>
                     <td>{{consultation.patient_symptoms}}</td>
                     <td>{{consultation.test_result}}</td>

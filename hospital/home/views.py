@@ -11,7 +11,7 @@ from treatment.models import Doctor
 import random
 from django.urls import reverse_lazy
 from datetime import date
-from django.views.generic import UpdateView
+#from django.views.generic import UpdateView
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
@@ -79,10 +79,9 @@ def showReceptionistBoard(request):
     context = {'pending':pending, 'next':next, 'second': second,  'busy':busy, 'available':available, 'doc1':doc1, 'doc2':doc2, 'doc3':doc3}
     return render(request, 'home/receptionist_dashboard.html', context)
 
-
 @login_required
 @permission_required('home.view_appointment')
-def showAppointments(request):
+def showAppointmentsRec(request):
     context = {}
     filtered_appointments = AppointmentFilter(
         request.GET,
@@ -95,7 +94,24 @@ def showAppointments(request):
     context['appointments_page_obj'] = appointments_page_obj
     total_appointments = filtered_appointments.qs.count()
     context['total_appointments'] = total_appointments
-    return render(request, 'home/appointments.html', context=context)
+    return render(request, 'home/appointments_rec.html', context=context)
+
+@login_required
+@permission_required('home.view_appointment')
+def showAppointmentsDoc(request):
+    context = {}
+    filtered_appointments = AppointmentFilter(
+        request.GET,
+        queryset = Appointment.objects.all()
+    )
+    context['filtered_appointments'] = filtered_appointments
+    paginated_filtered_appointments = Paginator(filtered_appointments.qs, 10)
+    page_number = request.GET.get('page')
+    appointments_page_obj = paginated_filtered_appointments.get_page(page_number)
+    context['appointments_page_obj'] = appointments_page_obj
+    total_appointments = filtered_appointments.qs.count()
+    context['total_appointments'] = total_appointments
+    return render(request, 'home/appointments_doc.html', context=context)
 
 @login_required
 @permission_required('home.change_appointment')
@@ -195,32 +211,21 @@ def showInvoices(request):
     return render(request, 'home/invoices.html', context=context)
 
 @login_required
-def updateInvoice(request, id):
-    invoice = Invoice.objects.get(id=id)
-    form = InvoiceForm(instance=invoice)
-    if request.method=='POST':
-        form = InvoiceForm(request.POST, instance=invoice)
-        if form.is_valid():
-            form.save()
-            receptionist = form.cleaned_data.get('receptionist')
-            appointment = form.cleaned_data.get('appointment')
-            admin = form.cleaned_data.get('admin')
-            appointment_Id = appointment.appointment_Id
-            patient_id = appointment.patient
-            rec_name = receptionist.user.first_name
-            rec_email = receptionist.user.email
-            admin_name = admin.user.first_name
-            send_mail(
-                'INVOICE CONFIRMED',
-                '',
-                'yustaoab@gmail.com',
-                [rec_email],
-                fail_silently=False,
-                html_message = render_to_string('home/invoice_confirmed_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name)})
-            )
-            messages.success(request, "The invoice has been modified successfully")
-            return redirect('invoices')
-    return render(request, 'home/invoice_form_update.html', {'form': form, 'invoice': invoice})
+@permission_required('home.view_invoice')
+def showInvoicesRec(request):
+    context = {}
+    filtered_invoices = InvoiceFilter(
+        request.GET,
+        queryset = Invoice.objects.all()
+    )
+    context['filtered_invoices'] = filtered_invoices
+    paginated_filtered_invoices = Paginator(filtered_invoices.qs, 10)
+    page_number = request.GET.get('page')
+    invoices_page_obj = paginated_filtered_invoices.get_page(page_number)
+    context['invoices_page_obj'] = invoices_page_obj
+    total_invoices = filtered_invoices.qs.count()
+    context['total_invoices'] = total_invoices
+    return render(request, 'home/invoices_rec.html', context=context)
 
 @login_required
 def updateInvoiceAdm(request, id):
@@ -233,33 +238,28 @@ def updateInvoiceAdm(request, id):
             receptionist = form.cleaned_data.get('receptionist')
             appointment = form.cleaned_data.get('appointment')
             admin = form.cleaned_data.get('admin')
-            appointment_Id = appointment.appointment_Id
-            patient_id = appointment.patient
-            rec_name = receptionist.user.first_name
-            rec_email = receptionist.user.email
-            admin_name = admin.user.first_name
-            send_mail(
-                'INVOICE CONFIRMED',
-                '',
-                'yustaoab@gmail.com',
-                [rec_email],
-                fail_silently=False,
-                html_message = render_to_string('home/invoice_confirmed_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name)})
-            )
-            messages.success(request, "The invoice has been confirmed successfully")
-            return redirect('invoices')
+            if admin == None:
+                messages.error(request, "Please select an admin before submission")
+            else:
+                appointment_Id = appointment.appointment_Id
+                patient_id = appointment.patient
+                rec_name = receptionist.user.first_name
+                rec_email = receptionist.user.email
+                admin_name = admin.user.first_name
+                send_mail(
+                    'INVOICE CONFIRMED',
+                    '',
+                    'yustaoab@gmail.com',
+                    [rec_email],
+                    fail_silently=False,
+                    html_message = render_to_string('home/invoice_confirmed_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name)})
+                )
+                messages.success(request, "The invoice has been confirmed successfully")
+                return redirect('invoices_adm')
+
+
     return render(request, 'home/invoice_form_update.html', {'form': form, 'invoice': invoice})
 
-# class InvoiceUpdateViewRec(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
-# #class InvoiceUpdateView(SuccessMessageMixin, UpdateView):
-#     model = Invoice
-#     template_name = 'home/invoice_form_update.html'
-#     success_url = reverse_lazy('invoices')
-#     #success_message = "%(username)s was created"
-#     success_message = "The invoice has been confirmed successfully"
-#     fields = ('confirmation',)
-#     permission_required = 'home.change_invoice'
-#
 # class InvoiceUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
 # #class InvoiceUpdateView(SuccessMessageMixin, UpdateView):
 #     model = Invoice
@@ -267,8 +267,30 @@ def updateInvoiceAdm(request, id):
 #     success_url = reverse_lazy('invoices_adm')
 #     #success_message = "%(username)s was created"
 #     success_message = "The invoice has been confirmed successfully"
-#     fields = ('confirmation',)
+#     fields = ('confirmation', 'admin')
 #     permission_required = 'home.change_invoice'
+#
+#     def form_valid(self, form):
+#         receptionist = form.cleaned_data.get('receptionist')
+#         appointment = form.cleaned_data.get('appointment')
+#         admin = form.cleaned_data.get('admin')
+#         if admin == None:
+#             pass
+#         else:
+#             appointment_Id = appointment.appointment_Id
+#             patient_id = appointment.patient
+#             rec_name = receptionist.user.first_name
+#             rec_email = receptionist.user.email
+#             admin_name = admin.user.first_name
+#             send_mail(
+#                 'INVOICE CONFIRMED',
+#                 '',
+#                 'yustaoab@gmail.com',
+#                 [rec_email],
+#                 fail_silently=False,
+#                 html_message = render_to_string('home/invoice_confirmed_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name)})
+#             )
+#             return super(InvoiceUpdateView, self).form_valid(form)
 
 @login_required
 @permission_required('home.add_invoice')

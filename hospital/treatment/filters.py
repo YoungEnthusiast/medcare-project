@@ -4,7 +4,7 @@ from .models import Consultation, Patient
 
 class ConsultationFilter(filters.FilterSet):
     start_date = DateFilter(field_name="created", lookup_expr='gte', label='Date')
-    patient_symptoms = CharFilter(field_name='patient_symptoms', lookup_expr='icontains', label='Symptoms')
+    patient_symptoms = CharFilter(field_name='patient_symptoms', lookup_expr='icontains', label="Patient's Complaints")
     test_result = CharFilter(field_name='test_result', lookup_expr='icontains', label='Test Result')
     Prescription = CharFilter(field_name='prescription', lookup_expr='icontains', label='Prescription')
 

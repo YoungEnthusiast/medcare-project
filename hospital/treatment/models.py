@@ -90,11 +90,8 @@ class LabScientist(models.Model):
 
     class Meta:
         ordering = ('user',)
-
-class Meta:
-    ordering = ('user',)
-    verbose_name = "Lab Technician"
-    verbose_name_plural = "Lab Technicians"
+        verbose_name = "Lab Technician"
+        verbose_name_plural = "Lab Technicians"
 
 class Nurse(models.Model):
     GENDER_CHOICES = [
@@ -157,6 +154,7 @@ class Consultation(models.Model):
     patient_symptoms = models.TextField(max_length=255)
     test_result = models.TextField(max_length=255)
     prescription = models.TextField(max_length=255)
+    lab_technician = models.ForeignKey(LabScientist, on_delete = models.SET_NULL, null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 
