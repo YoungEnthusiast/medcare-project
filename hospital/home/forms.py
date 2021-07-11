@@ -22,3 +22,7 @@ class InvoiceForm(forms.ModelForm):
     class Meta:
         model = Invoice
         fields = ['receptionist', 'appointment', 'blood_test', 'admission', 'injection', 'medicine', 'confirmation', 'admin']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['blood_test'].label = 'Blood Test'

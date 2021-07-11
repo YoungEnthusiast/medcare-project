@@ -54,7 +54,7 @@
                   <th>DATE REGISTERED</th>
                   <th>ID & FULL NAME</th>
                   <th>GENDER</th>
-                  <th>RETAINER</th>
+                  <th>FOLDER TYPE</th>
                   <th>BLOOD GROUP</th>
                 </tr>
               </thead>
@@ -64,7 +64,7 @@
                   <td>{{patient.created}}</td>
                   <td><a class="text-warning" href="{% url 'show_patient' patient.id %}"><strong>{{patient.user.username}} | {{patient.user.first_name}} {{patient.user.last_name}}</strong></a></td>
                   <td>{{patient.gender}}</td>
-                  <td>{{patient.retainer}}</td>
+                  <td>{{patient.folder_type}}</td>
                   <td>{{patient.blood_group}}</td>
                 </tr>
               {% endfor %}

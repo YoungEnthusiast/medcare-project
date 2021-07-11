@@ -7,9 +7,15 @@ class Patient(models.Model):
 		('Male','Male'),
 		('Female', 'Female')
 	]
-    RETAINER_CHOICES = [
-        ('Private', 'Private'),
+    FOLDER_CHOICES = [
+        ('Single', 'Single'),
 		('Family', 'Family'),
+        ('NHIS', 'NHIS'),
+		('HMO', 'HMO'),
+        ('Dental', 'Dental'),
+		('OPD', 'OPD'),
+        ('ANC', 'ANC'),
+		('Staff', 'Staff'),
     ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     first_name = models.CharField(max_length=30, null=True)
@@ -19,7 +25,7 @@ class Patient(models.Model):
     address = models.CharField(max_length=200, null=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
-    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    folder_type = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 
@@ -41,9 +47,15 @@ class Doctor(models.Model):
 		('Male','Male'),
 		('Female', 'Female')
 	]
-    RETAINER_CHOICES = [
-        ('Private', 'Private'),
+    FOLDER_CHOICES = [
+        ('Single', 'Single'),
 		('Family', 'Family'),
+        ('NHIS', 'NHIS'),
+		('HMO', 'HMO'),
+        ('Dental', 'Dental'),
+		('OPD', 'OPD'),
+        ('ANC', 'ANC'),
+		('Staff', 'Staff'),
     ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     phone_number = models.CharField(max_length=20, unique=False, null=True)
@@ -51,7 +63,7 @@ class Doctor(models.Model):
     address = models.CharField(max_length=200, null=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
-    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    folder_type = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
     busy = models.BooleanField(max_length=5, default = False)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
@@ -68,9 +80,15 @@ class LabScientist(models.Model):
         ('Male','Male'),
         ('Female', 'Female')
     ]
-    RETAINER_CHOICES = [
-        ('Private', 'Private'),
-        ('Family', 'Family'),
+    FOLDER_CHOICES = [
+        ('Single', 'Single'),
+		('Family', 'Family'),
+        ('NHIS', 'NHIS'),
+		('HMO', 'HMO'),
+        ('Dental', 'Dental'),
+		('OPD', 'OPD'),
+        ('ANC', 'ANC'),
+		('Staff', 'Staff'),
     ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     phone_number = models.CharField(max_length=20, unique=False, null=True)
@@ -78,7 +96,7 @@ class LabScientist(models.Model):
     address = models.CharField(max_length=200, null=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
-    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    folder_type = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 
@@ -98,9 +116,15 @@ class Nurse(models.Model):
 		('Male','Male'),
 		('Female', 'Female')
 	]
-    RETAINER_CHOICES = [
-        ('Private', 'Private'),
+    FOLDER_CHOICES = [
+        ('Single', 'Single'),
 		('Family', 'Family'),
+        ('NHIS', 'NHIS'),
+		('HMO', 'HMO'),
+        ('Dental', 'Dental'),
+		('OPD', 'OPD'),
+        ('ANC', 'ANC'),
+		('Staff', 'Staff'),
     ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     phone_number = models.CharField(max_length=20, unique=False, null=True)
@@ -108,7 +132,7 @@ class Nurse(models.Model):
     address = models.CharField(max_length=200, null=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
-    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    folder_type = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 
@@ -126,9 +150,15 @@ class Pharmacist(models.Model):
         ('Male','Male'),
         ('Female', 'Female')
     ]
-    RETAINER_CHOICES = [
-        ('Private', 'Private'),
-        ('Family', 'Family'),
+    FOLDER_CHOICES = [
+        ('Single', 'Single'),
+		('Family', 'Family'),
+        ('NHIS', 'NHIS'),
+		('HMO', 'HMO'),
+        ('Dental', 'Dental'),
+		('OPD', 'OPD'),
+        ('ANC', 'ANC'),
+		('Staff', 'Staff'),
     ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     phone_number = models.CharField(max_length=20, unique=False, null=True)
@@ -136,7 +166,7 @@ class Pharmacist(models.Model):
     address = models.CharField(max_length=200, null=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
-    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    folder_type = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 

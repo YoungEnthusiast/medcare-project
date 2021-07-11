@@ -9,9 +9,15 @@ class Person(models.Model):
 		('Male','Male'),
 		('Female', 'Female')
 	]
-    RETAINER_CHOICES = [
-        ('Private', 'Private'),
+    FOLDER_CHOICES = [
+        ('Single', 'Single'),
 		('Family', 'Family'),
+        ('NHIS', 'NHIS'),
+		('HMO', 'HMO'),
+        ('Dental', 'Dental'),
+		('OPD', 'OPD'),
+        ('ANC', 'ANC'),
+		('Staff', 'Staff'),
     ]
     ROLE_CHOICES = [
         ('Patient', 'Patient'),
@@ -28,7 +34,7 @@ class Person(models.Model):
     address = models.CharField(max_length=200, null=True)
     age = models.IntegerField(default=0, null=True)
     blood_group = models.CharField(max_length=10, null=True)
-    retainer = models.CharField(max_length=20, choices=RETAINER_CHOICES, default='Private', null=True)
+    folder_type = models.CharField(max_length=20, choices=FOLDER_CHOICES, default='Single', null=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Patient', null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)

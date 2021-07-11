@@ -51,9 +51,15 @@ class PersonEditForm(forms.ModelForm):
 		('Male','Male'),
 		('Female', 'Female')
 	]
-    RETAINER_CHOICES = [
-        ('Private', 'Private'),
+    FOLDER_CHOICES = [
+        ('Single', 'Single'),
 		('Family', 'Family'),
+        ('NHIS', 'NHIS'),
+		('HMO', 'HMO'),
+        ('Dental', 'Dental'),
+		('OPD', 'OPD'),
+        ('ANC', 'ANC'),
+		('Staff', 'Staff'),
     ]
     ROLE_CHOICES = [
         ('Patient', 'Patient'),
@@ -69,7 +75,7 @@ class PersonEditForm(forms.ModelForm):
     # email = forms.EmailField()
     # username = forms.CharField(max_length=20)
     blood_group = forms.CharField(max_length=10)
-    retainer = forms.ChoiceField(choices=RETAINER_CHOICES)
+    folder_type= forms.ChoiceField(choices=FOLDER_CHOICES)
     phone_number = forms.CharField(label='Phone Number')
     gender = forms.ChoiceField(label='Gender', choices=GENDER_CHOICES, widget=forms.RadioSelect)
     age = forms.IntegerField()
@@ -78,8 +84,9 @@ class PersonEditForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        fields = ['phone_number', 'blood_group', 'gender', 'address', 'age', 'retainer', 'role']
+        fields = ['phone_number', 'blood_group', 'gender', 'address', 'age', 'folder_type', 'role']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['phone_number'].help_text = "Phone Number"
         self.fields['blood_group'].label = "Blood Group"
+        self.fields['folder_type'].label = "Folder Type"
