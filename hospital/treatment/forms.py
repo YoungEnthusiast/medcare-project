@@ -1,6 +1,5 @@
 from django import forms
 from .models import Patient, Doctor, Consultation
-from django import forms
 
 class PatientForm(forms.ModelForm):
     class Meta:

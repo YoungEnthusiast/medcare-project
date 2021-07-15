@@ -74,13 +74,13 @@ class PersonEditForm(forms.ModelForm):
     # last_name = forms.CharField(max_length=30)
     # email = forms.EmailField()
     # username = forms.CharField(max_length=20)
-    blood_group = forms.CharField(max_length=10)
+    blood_group = forms.CharField(required=False, max_length=10)
     retainer= forms.ChoiceField(choices=FOLDER_CHOICES)
     phone_number = forms.CharField(label='Phone Number')
     gender = forms.ChoiceField(label='Gender', choices=GENDER_CHOICES, widget=forms.RadioSelect)
     age = forms.IntegerField()
     role = forms.ChoiceField(choices=ROLE_CHOICES)
-    address = forms.CharField(max_length=200)
+    address = forms.CharField(max_length=200, required=False)
 
     class Meta:
         model = Person
@@ -90,3 +90,4 @@ class PersonEditForm(forms.ModelForm):
         self.fields['phone_number'].help_text = "Phone Number"
         self.fields['blood_group'].label = "Blood Group"
         self.fields['retainer'].label = "Folder Type"
+        self.fields['role'].label = "Department"
