@@ -18,7 +18,7 @@ def create(request):
         form = CustomRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('edit_profile')
+            return redirect('edit_profile0')
 
             # name = form.cleaned_data.get('first_name')
             # email = form.cleaned_data.get('email')
@@ -32,7 +32,7 @@ def create(request):
     return render(request, 'users/account.html', {'form': form})
 
 @login_required
-def editProfile(request, **kwargs):
+def editProfile0(request, **kwargs):
     if request.method == "POST":
         form = UserEditForm(request.POST, instance=request.user)
         person_form = PersonEditForm(request.POST, instance=request.user.person)
@@ -57,44 +57,44 @@ def editProfile(request, **kwargs):
                 new_patient.created = new_person.created
                 #new_patient.modified = new_person.modified
                 new_patient.save()
-                messages.success(request, "Profile has been modified successfully")
-                return redirect('edit_profile')
+                messages.success(request, "The Profile has been modified successfully")
+                return redirect('receptionist_dashboard')
             elif new_person.role == "Doctor":
                 new_doctor = Doctor()
                 new_doctor.user = new_person.user
                 new_doctor.save()
-                messages.success(request, "Profile has been modified successfully")
-                return redirect('edit_profile')
-            elif new_person.role == "Receptionist":
+                messages.success(request, "The Profile has been modified successfully")
+                return redirect('doctor_dashboard')
+            elif new_person.role == "Front Desk Officer":
                 new_receptionist = Receptionist()
                 new_receptionist.user = new_person.user
                 new_receptionist.save()
-                messages.success(request, "Profile has been modified successfully")
-                return redirect('edit_profile')
+                messages.success(request, "The Profile has been modified successfully")
+                return redirect('receptionist_dashboard')
             elif new_person.role == "Lab Technician":
                 new_lab_tech = LabScientist()
                 new_lab_tech.user = new_person.user
                 new_lab_tech.save()
-                messages.success(request, "Profile has been modified successfully")
-                return redirect('edit_profile')
+                messages.success(request, "The Profile has been modified successfully")
+                return redirect('lab_sc_dashboard')
             elif new_person.role == "Nurse":
                 new_nurse = Nurse()
                 new_nurse.user = new_person.user
                 new_nurse.save()
-                messages.success(request, "Profile has been modified successfully")
-                return redirect('edit_profile')
+                messages.success(request, "The Profile has been modified successfully")
+                return redirect('nurse_dashboard')
             elif new_person.role == "Pharmacist":
                 new_pharmacist = Pharmacist()
                 new_pharmacist.user = new_person.user
                 new_pharmacist.save()
-                messages.success(request, "Profile has been modified successfully")
-                return redirect('edit_profile')
+                messages.success(request, "The Profile has been modified successfully")
+                return redirect('pharmacist_dashboard')
             elif new_person.role == "Admin":
                 new_admin = HR()
                 new_admin.user = new_person.user
                 new_admin.save()
-                messages.success(request, "Profile has been modified successfully")
-                return redirect('edit_profile')
+                messages.success(request, "The Profile has been modified successfully")
+                return redirect('admin_dashboard')
 
         else:
             messages.error(request, "Error: Please review form input fields below")
@@ -102,6 +102,26 @@ def editProfile(request, **kwargs):
         form = UserEditForm(instance=request.user)
         person_form = PersonEditForm(instance=request.user.person)
     return render(request, 'users/edit_profile.html', {'form': form, 'person_form': person_form})
+
+@login_required
+def editProfile(request, **kwargs):
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance=request.user)
+        person_form = PersonEditForm(request.POST, instance=request.user.person)
+        if form.is_valid() and person_form.is_valid():
+            form.save()
+            person_form.save()
+            new_person = Person.objects.get(user=request.user)
+            new_person.save()
+            messages.success(request, "Your profile has been modified successfully")
+            return redirect('edit_profile')
+        else:
+            messages.error(request, "Error: Please review form input fields below")
+    else:
+        form = UserEditForm(instance=request.user)
+        person_form = PersonEditForm(instance=request.user.person)
+    return render(request, 'users/edit_profile.html', {'form': form, 'person_form': person_form})
+
 
 @login_required
 def changePassword(request):

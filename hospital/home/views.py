@@ -331,8 +331,6 @@ def issueInvoice(request):
         if form.is_valid():
             form.save()
             reg = Invoice.objects.all()[0]
-            #reg.receptionist = request.user.first_name
-            reg.save()
             receptionist = form.cleaned_data.get('receptionist')
             appointment = form.cleaned_data.get('appointment')
             admin = form.cleaned_data.get('admin')
@@ -345,7 +343,10 @@ def issueInvoice(request):
                 admin_name = admin.user.first_name
             except:
                 pass
-            if reg.confirmation == False:
+            if reg.confirmation == False and reg.admin == None:
+                messages.error(request, "Please tick the confirmation box or select an admin that will confirm")
+                reg.delete()
+            if reg.confirmation == False and reg.admin != None:
                 send_mail(
                     'PLEASE CONFIRM INVOICE',
                     '',
@@ -354,8 +355,15 @@ def issueInvoice(request):
                     fail_silently=False,
                     html_message = render_to_string('home/request_confirm_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name), 'total': str(total)})
                 )
-            messages.success(request, str(appointment.patient.user.first_name) + "'s invoice has been saved successfully")
-            return redirect('invoices')
+                messages.success(request, str(appointment.patient.user.first_name) + "'s invoice has been saved successfully")
+                return redirect('invoices_rec')
+
+            elif reg.confirmation == True and reg.admin == None:
+                messages.success(request, str(appointment.patient.user.first_name) + "'s invoice has been saved successfully")
+                return redirect('invoices_rec')
+            elif reg.confirmation == True and reg.admin != None:
+                messages.error(request, "You cannot tick the confirmation box and at the same time select an admin again")
+                reg.delete()
         else:
             return redirect('invoice')
     return render(request, 'home/invoice_form.html', {'form': form})

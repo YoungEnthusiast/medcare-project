@@ -21,7 +21,7 @@ class Person(models.Model):
     ]
     ROLE_CHOICES = [
         ('Patient', 'Patient'),
-        ('Receptionist', 'Receptionist'),
+        ('Front Desk Officer', 'Front Desk Officer'),
 		('Doctor', 'Doctor'),
         ('Lab Technician', 'Lab Technician'),
         ('Nurse', 'Nurse'),
