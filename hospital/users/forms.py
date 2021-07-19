@@ -59,6 +59,8 @@ class PersonEditForm(forms.ModelForm):
         ('Dental', 'Dental'),
 		('OPD', 'OPD'),
         ('ANC', 'ANC'),
+        ('Dialysis', 'Dialysis'),
+        ('Radiology', 'Radiology'),
 		('Staff', 'Staff'),
     ]
     ROLE_CHOICES = [

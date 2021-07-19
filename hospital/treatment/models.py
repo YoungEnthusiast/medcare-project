@@ -158,6 +158,8 @@ class Pharmacist(models.Model):
         ('Dental', 'Dental'),
 		('OPD', 'OPD'),
         ('ANC', 'ANC'),
+        ('Dialysis', 'Dialysis'),
+        ('Radiology', 'Radiology'),
 		('Staff', 'Staff'),
     ]
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
