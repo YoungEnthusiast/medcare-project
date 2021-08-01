@@ -31,7 +31,7 @@ class PharmacistAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 class ConsultationAdmin(admin.ModelAdmin):
-    list_display = ['created', 'appointment', 'patient_symptoms', 'test_result', 'prescription']
+    list_display = ['created', 'appointment', 'patient_symptoms', 'test_result', 'injection']
     search_fields = ['doctor__username', 'doctor__first_name', 'user__last_name', 'patient__username']
     #list_filter = ['status']
     list_display_links = ['appointment']

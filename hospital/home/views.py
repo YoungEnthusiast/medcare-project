@@ -62,7 +62,7 @@ def showContact(request):
             send_mail(
                 'Contact Med Care',
                 'A message was sent by ' + name + '. Please log in to admin panel to read message',
-                'yustaoab@gmail.com',
+                'info@medcarehospitals.com.ng',
                 [email],
                 fail_silently=False,
                 #html_message = render_to_string('home/home1.html')
@@ -200,7 +200,7 @@ def createAppointment(request):
         if form.is_valid():
             form.save()
             reg = Appointment.objects.filter(appointment_Id=2021)[0]
-            reg.appointment_Id = "MCH" + str(random.randint(10000,99999))
+            reg.appointment_Id = "MCH" + str(reg.id)
             reg.receptionist = request.user.first_name
             reg.save()
             #patient = form.cleaned_data.get('patient')
@@ -213,7 +213,7 @@ def createAppointment(request):
             send_mail(
                 'NEW PATIENT APPOINTMENT',
                 'You have been assigned to a new patient whose ID is: ' + str(patient_id) + '. The appointment ID is: ' + str(appointment_id) + '.',
-                'yustaoab@gmail.com',
+                'info@medcarehospitals.com.ng',
                 [doc_email],
                 fail_silently=False,
                 html_message = render_to_string('treatment/doc_appointment_email.html', {'receptionist': str(receptionist), 'first_name': str(first_name), 'patient_id': str(patient_id), 'appointment_id': str(appointment_id)})
@@ -279,7 +279,7 @@ def updateInvoiceAdm(request, id):
                 send_mail(
                     'INVOICE CONFIRMED',
                     '',
-                    'yustaoab@gmail.com',
+                    'info@medcarehospitals.com.ng',
                     [rec_email],
                     fail_silently=False,
                     html_message = render_to_string('home/invoice_confirmed_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name)})
@@ -350,7 +350,7 @@ def issueInvoice(request):
                 send_mail(
                     'PLEASE CONFIRM INVOICE',
                     '',
-                    'yustaoab@gmail.com',
+                    'info@medcarehospitals.com.ng',
                     [admin_email],
                     fail_silently=False,
                     html_message = render_to_string('home/request_confirm_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'rec_name': str(rec_name), 'admin_name': str(admin_name), 'total': str(total)})

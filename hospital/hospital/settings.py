@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SECRET_KEY = 'django-insecure-$ws2o%#s4apd=arp)qtkphit0ddb26remc=-bb-ac^=$xrl%d!'
+EMAIL_HOST_USER = 'yustaoab@gmail.com'
+EMAIL_HOST_PASSWORD = 'twnqanloovwgjrsq'
 
 # Application definition
 
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django.contrib.humanize',
     'django_filters',
+    'inventory',
 ]
 
 MIDDLEWARE = [
@@ -82,11 +86,18 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
 }
 
-EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+
+
+EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_PORT = 587
 
+#EMAIL_USE_SSL = True
+
+#DEFAULT_FROM_EMAIL = 'Med Care Hospitals <info@medcarehospitals.com.ng>'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

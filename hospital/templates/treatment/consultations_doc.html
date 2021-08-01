@@ -61,7 +61,19 @@
                   <th>COMPLAINTS</th>
                   <th>LAB TECHNICIAN</th>
                   <th>TEST RESULT</th>
-                  <th>PRESCRIPTION</th>
+                  <th>INJECTION</th>
+                  <th>DOSAGE (INJECTION)</th>
+                  <th>HOW LONG (INJECTION)</th>
+                  <th>TABLET</th>
+                  <th>DOSAGE (TABLET)</th>
+                  <th>HOW LONG (TABLET)</th>
+                  <th>SYRUP</th>
+                  <th>DOSAGE (SYRUP)</th>
+                  <th>HOW LONG (SYRUP)</th>
+                  <th>SUPPOSITORY</th>
+                  <th>DOSAGE (SUPPOSITORY)</th>
+                  <th>HOW LONG (SUPPOSITORY)</th>
+                  <th>TOTAL PRICE</th>
                   <th></th>
                 </tr>
               </thead>
@@ -75,7 +87,19 @@
                     <td>{{consultation.patient_symptoms}}</td>
                     <td>{{consultation.lab_technician}}</td>
                     <td>{{consultation.test_result}}</td>
-                    <td>{{consultation.prescription}}</td>
+                    <td>{{consultation.injection}}</td>
+                    <td>{{consultation.injection_dosage}}</td>
+                    <td>{{consultation.injection_how}}</td>
+                    <td>{{consultation.tablet}}</td>
+                    <td>{{consultation.tablet_dosage}}</td>
+                    <td>{{consultation.tablet_how}}</td>
+                    <td>{{consultation.syrup}}</td>
+                    <td>{{consultation.syrup_dosage}}</td>
+                    <td>{{consultation.syrup_how}}</td>
+                    <td>{{consultation.suppository}}</td>
+                    <td>{{consultation.suppository_dosage}}</td>
+                    <td>{{consultation.suppository_how}}</td>
+                    <td>{{consultation.total}}</td>
                     <td class="text-center"><a href="patients-histories/update/{{consultation.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
                   </tr>
               {% endfor %}

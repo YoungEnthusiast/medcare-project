@@ -2,8 +2,6 @@ import django_filters as filters
 from django_filters import CharFilter, DateFilter
 from .models import Appointment, Invoice
 
-
-
 class AppointmentFilter(filters.FilterSet):
     start_date = DateFilter(field_name="created", lookup_expr='gte', label='Date')
 

@@ -104,7 +104,6 @@ class HR(models.Model):
         verbose_name = 'Admin'
         verbose_name_plural = 'Admins'
 
-
 class Invoice(models.Model):
     receptionist = models.ForeignKey(Receptionist, on_delete = models.SET_NULL, null=True)
     admin = models.ForeignKey(HR, on_delete = models.SET_NULL, null=True, blank=True)

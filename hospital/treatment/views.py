@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from users.models import Person
 from .models import Doctor, Consultation, Patient
-from .forms import DoctorForm, ConsultationForm, PatientForm
+from .forms import DoctorForm, ConsultationForm, ConsultationFormDoc, PatientForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
@@ -207,7 +207,7 @@ def showConsultationsDoc(request):
             queryset = Consultation.objects.all()
         )
         context['filtered_consultations'] = filtered_consultations
-        paginated_filtered_consultations = Paginator(filtered_consultations.qs, 10)
+        paginated_filtered_consultations = Paginator(filtered_consultations.qs, 5)
         page_number = request.GET.get('page')
         consultations_page_obj = paginated_filtered_consultations.get_page(page_number)
         context['consultations_page_obj'] = consultations_page_obj
@@ -300,14 +300,14 @@ def createConsultation(request):
             send_mail(
                 'NEW MESSAGE FROM DOCTOR',
                 '',
-                'yustaoab@gmail.com',
+                'info@medcarehospitals.com.ng',
                 [lab_technician_email],
                 fail_silently=False,
                 html_message = render_to_string('treatment/doc_lab_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'doctor_name': str(doctor_name), 'lab_technician_name': str(lab_technician_name), 'appointment_Id': str(appointment_Id)})
             )
             messages.success(request, str(patient) + "'s appointment has been added successfully")
         else:
-            return redirect('new_history')
+            messages.error(request, "Please review form input fields below")
     return render(request, 'treatment/consultation_form.html', {'form': form})
 
 @login_required
@@ -362,11 +362,34 @@ def showPharmacistBoard(request):
 @permission_required('treatment.view_consultation')
 def updateConsultationDoc(request, id):
     consultation = Consultation.objects.get(id=id)
-    form = ConsultationForm(instance=consultation)
+    form = ConsultationFormDoc(instance=consultation)
     if request.method=='POST':
-        form = ConsultationForm(request.POST, instance=consultation)
+        form = ConsultationFormDoc(request.POST, instance=consultation)
         if form.is_valid():
             form.save()
+            appointment = form.cleaned_data.get('appointment')
+            #injection = form.cleaned_data.get('injection')
+            injection_how = form.cleaned_data.get('injection_how')
+            reg = Consultation.objects.filter(appointment=appointment)[0]
+
+            reg.total = reg.myInjection + reg.myTablet + reg.mySyrup + reg.mySuppository
+
+            # if reg.injection.price == None:
+            #     reg.total = reg.tablet.price
+            # elif reg.tablet.price == None:
+            #     reg.total = reg.injection.price
+
+            # if reg.injection == None:
+            #     reg.total = reg.tablet.price + reg.syrup.price + reg.suppository.price
+
+
+
+
+
+
+
+            reg.save()
+
             messages.success(request, "The medical history has been modified successfully")
             return redirect('consultations_doc')
     return render(request, 'treatment/consultation_form_update_doc.html', {'form': form, 'consultation': consultation})
@@ -392,7 +415,7 @@ def updateConsultationLab(request, id):
             send_mail(
                 'TEST RESULT FROM LABORATORY',
                 '',
-                'yustaoab@gmail.com',
+                'info@medcarehospitals.com.ng',
                 [doctor_email],
                 fail_silently=False,
                 html_message = render_to_string('treatment/lab_doc_email.html', {'appointment_Id': str(appointment_Id), 'patient_id': str(patient_id), 'doctor_name': str(doctor_name), 'lab_technician_name': str(lab_technician_name)})

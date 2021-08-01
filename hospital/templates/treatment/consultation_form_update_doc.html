@@ -35,7 +35,74 @@
             </div>
             <br>
             {% csrf_token %}
-            {{ form|crispy }}
+            <div class="form-row">
+              <div class="form-group col-sm-12 mb-2">
+                  {{ form.appointment|as_crispy_field }}
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-12 mb-2">
+                  {{ form.patient_symptoms|as_crispy_field }}
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-6 mb-2">
+                  {{ form.lab_technician|as_crispy_field }}
+              </div>
+              <div class="form-group col-sm-6 mb-2">
+                  {{ form.test_result|as_crispy_field }}
+              </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.injection|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.injection_dosage|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.injection_how|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.tablet|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.tablet_dosage|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.tablet_how|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.syrup|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.syrup_dosage|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.syrup_how|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.suppository|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.suppository_dosage|as_crispy_field }}
+                </div>
+                <div class="form-group col-sm-4 mb-2">
+                    {{ form.suppository_how|as_crispy_field }}
+                </div>
+            </div>
             <input type="submit" class="form-group col-md-12 btn btn-warning" value="Update">
           </form>
         </div>
