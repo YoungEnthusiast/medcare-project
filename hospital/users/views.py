@@ -136,7 +136,7 @@ def changePassword(request):
             send_mail(
                 'Password Changed!',
                 'Dear ' + str(name) + ', your password has just been changed. If this activity was not carried out by you, please reply to this email',
-                'yustaoab@gmail.com',
+                'info@medcarehospitals.com.ng',
                 [email],
                 fail_silently=False,
                 html_message = render_to_string('users/change_password_email.html', {'name': str(name)})
