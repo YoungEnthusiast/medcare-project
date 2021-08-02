@@ -85,20 +85,16 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     messages.SUCCESS: 'success',
 }
-
+#
 # EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_USE_TLS = True
-# # EMAIL_PORT = 587
-#
-#
-# EMAIL_HOST = 'smtp.zoho.com'
-# EMAIL_PORT = 587
 
-#EMAIL_USE_SSL = True
-
-#DEFAULT_FROM_EMAIL = 'Med Care Hospitals <info@medcarehospitals.com.ng>'
-
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.zoho.com'
+DEFAULT_FROM_EMAIL = 'Med Care Hospitals <info@medcarehospitals.com.ng>'
+EMAIL_HOST_USER = 'info@medcarehospitals.com.ng'
+EMAIL_HOST_PASSWORD = 'Medcare987654321!'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
