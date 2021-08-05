@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  <title>Add Syrup</title>
+{% endblock title %}
+
+{% block content %}
+<br>
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+  <a href="{% url 'patients_pha' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'consultations_pha' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+  <a href="{% url 'injections' %}"><i class="fas fa-list-ol fa-1x"></i> Injections</a>
+  <a href="{% url 'new_injection' %}"><i class="fas fa-syringe fa-1x"></i> Add Injection</a>
+  <a href="{% url 'tablets' %}"><i class="fas fa-list-ol fa-1x"></i> Tablets</a>
+  <a href="{% url 'new_tablet' %}"><i class="fas fa-capsules fa-1x"></i> Add Tablet</a>
+  <a href="{% url 'syrups' %}"><i class="fas fa-list-ol fa-1x"></i> Syrups</a>
+  <a href="{% url 'new_syrup' %}"><strong class="text-warning"><i class="fas fa-prescription-bottle fa-1x"></i> Add Syrup</strong></a>
+  <a href="{% url 'suppositories' %}"><i class="fas fa-list-ol fa-1x"></i> Suppositories</a>
+  <a href="{% url 'new_suppository' %}"><i class="fas fa-tint fa-1x"></i> Add Suppository</a>
+  </div>
+  <section class="main">
+    <div class="container">
+      {% include 'partials/_alerts.html' %}
+      <div class="pull-right col-md-12">
+        <div class="card text-primary">
+
+          <form method="post" class="form-group col-md-12">
+            <br>
+            <div class="card-header bg-primary text-warning">
+              <h4>
+                <i class="fas fa-edit"></i> Add Syrup</h4>
+            </div>
+            <br>
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group col-sm-6 mb-2">
+                  {{ form.name|as_crispy_field }}
+              </div>
+              <div class="form-group col-sm-6 mb-2">
+                  {{ form.price|as_crispy_field }}
+              </div>
+            </div>
+            <input type="submit" class="form-group col-md-12 btn btn-warning" value="Add">
+          </form>
+        </div>
+        <br>
+      </div>
+    </div>
+  </section>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+{% endblock content%}

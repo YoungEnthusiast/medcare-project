@@ -6,11 +6,10 @@ class ConsultationFilter(filters.FilterSet):
     start_date = DateFilter(field_name="created", lookup_expr='gte', label='Date')
     patient_symptoms = CharFilter(field_name='patient_symptoms', lookup_expr='icontains', label="Patient's Complaints")
     test_result = CharFilter(field_name='test_result', lookup_expr='icontains', label='Test Result')
-    Prescription = CharFilter(field_name='prescription', lookup_expr='icontains', label='Prescription')
 
     class Meta:
         model = Consultation
-        fields = ['appointment', 'appointment__patient']
+        fields = ['appointment', 'appointment__patient', 'injection', 'tablet', 'syrup', 'suppository']
 
     def __init__(self, *args, **kwargs):
         super(ConsultationFilter, self).__init__(*args, **kwargs)

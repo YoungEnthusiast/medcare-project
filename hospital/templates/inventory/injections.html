@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}
+  <title>injections</title>
+{% endblock title %}
+
+{% block content %}
+{% load home_tags %}
+<br>
+  <div class="sidebar">
+    <br>
+    <br>
+    <br>
+    <br>
+  <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
+  <a href="{% url 'patients_pha' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'consultations_pha' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
+  <a href="{% url 'injections' %}"><strong class="text-warning"><i class="fas fa-list-ol fa-1x"></i> Injections</strong></a>
+  <a href="{% url 'new_injection' %}"><i class="fas fa-syringe fa-1x"></i> Add Injection</a>
+  <a href="{% url 'tablets' %}"><i class="fas fa-list-ol fa-1x"></i> Tablets</a>
+  <a href="{% url 'new_tablet' %}"><i class="fas fa-capsules fa-1x"></i> Add Tablet</a>
+  <a href="{% url 'syrups' %}"><i class="fas fa-list-ol fa-1x"></i> Syrups</a>
+  <a href="{% url 'new_syrup' %}"><i class="fas fa-prescription-bottle fa-1x"></i> Add Syrup</a>
+  <a href="{% url 'suppositories' %}"><i class="fas fa-list-ol fa-1x"></i> Suppositories</a>
+  <a href="{% url 'new_suppository' %}"><i class="fas fa-tint fa-1x"></i> Add Suppository</a>
+  </div>
+  <section class="main">
+    {% include 'partials/_alerts.html' %}
+
+    {% if injections_page_obj %}
+    <h4 class="text-center text-warning">Search Injections by One or Many Fields</h4>
+    <div class="col-md-12">
+      <div class="box-element bg-warning" id="form-wrapper">
+        <form method="get" class="form-inline text-white">
+          {% for field in filtered_injections.form %}
+            <strong>{{field.label}}:</strong>&nbsp{{field}}&nbsp&nbsp
+          {% endfor %}
+          <input type="submit" class="btn btn-dark" value="Sort">
+        </form>
+      </div>
+    </div>
+    {% endif %}
+    <br>
+    <div class="row text-center">
+      {% if injections_page_obj %}
+        <div class="col-md-12">
+          {% if total_injections > 1 %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Injections: {{total_injections}}</h3>
+          </div>
+          {% else %}
+          <div class="form-group col-md-12">
+            <h3 class="form-group text-warning">Total Injection: {{total_injections}}</h3>
+          </div>
+          {% endif %}
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="thead-primary">
+                <tr>
+                  <th>DATE</th>
+                  <th>TYPE</th>
+                  <th>PRICE</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for injection in injections_page_obj %}
+                <tr class="table-success">
+                  <td>{{injection.created}}</td>
+                  <td>{{injection.name}}</td>
+                  <td>{{injection.price|intcomma}}</td>
+                  <td class="text-center"><a href="injections/update/{{injection.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <nav aria-label="...">
+              <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="{% my_url 1 'page' request.GET.urlencode %}" tabindex="-1" aria-disabled="true">First</a></li>
+                {% if injections_page_obj.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% my_url injections_page_obj.previous_page_number 'page' request.GET.urlencode %}">{{injections_page_obj.previous_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item active" aria-current="page"><a class="page-link" href="{% my_url injections_page_obj.number 'page' request.GET.urlencode %}">{{injections_page_obj.number}}<span class="sr-only">(current)</span></a></li>
+                {% if injections_page_obj.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% my_url injections_page_obj.next_page_number 'page' request.GET.urlencode %}">{{injections_page_obj.next_page_number}}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="{% my_url injections_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">Last</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      {% else %}
+      <div class="container">
+        <h3>No injection found!</h3>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+{% endblock content%}

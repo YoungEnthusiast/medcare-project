@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from home.models import Appointment
+from inventory.models import Injection, Tablet, Syrup, Suppository
+from inventory.forms import InjectionForm, TabletForm, SyrupForm, SuppositoryForm
 from django.contrib.auth.decorators import login_required, permission_required
 from .filters import ConsultationFilter
 from users.filters import PatientFilter
+from inventory.filters import InjectionFilter, TabletFilter, SyrupFilter, SuppositoryFilter
 from django.core.paginator import Paginator
 from django.contrib import messages
 from users.models import Person
@@ -423,3 +426,167 @@ def updateConsultationLab(request, id):
             messages.success(request, "The medical history has been modified successfully")
             return redirect('consultations_lab')
     return render(request, 'treatment/consultation_form_update_lab.html', {'form': form, 'consultation': consultation})
+
+@login_required
+def showInjections(request):
+    context = {}
+    filtered_injections = InjectionFilter(
+        request.GET,
+        queryset = Injection.objects.all()
+    )
+    context['filtered_injections'] = filtered_injections
+    paginated_filtered_injections = Paginator(filtered_injections.qs, 10)
+    page_number = request.GET.get('page')
+    injections_page_obj = paginated_filtered_injections.get_page(page_number)
+    context['injections_page_obj'] = injections_page_obj
+    total_injections = filtered_injections.qs.count()
+    context['total_injections'] = total_injections
+    return render(request, 'inventory/injections.html', context=context)
+
+@login_required
+def updateInjection(request, id):
+    injection = Injection.objects.get(id=id)
+    form = InjectionForm(instance=injection)
+    if request.method=='POST':
+        form = InjectionForm(request.POST, instance=injection)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The injection has been modified successfully")
+            return redirect('injections')
+    return render(request, 'inventory/injection_form_update.html', {'form': form, 'injection': injection})
+
+@login_required
+def addInjection(request):
+    form = InjectionForm()
+    if request.method == 'POST':
+        form = InjectionForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            name = form.cleaned_data.get('name')
+            messages.success(request, str(name) + " has been added successfully")
+        else:
+            messages.error(request, "Please review form input fields below")
+    return render(request, 'inventory/injection_form.html', {'form': form})
+
+@login_required
+def showTablets(request):
+    context = {}
+    filtered_tablets = TabletFilter(
+        request.GET,
+        queryset = Tablet.objects.all()
+    )
+    context['filtered_tablets'] = filtered_tablets
+    paginated_filtered_tablets = Paginator(filtered_tablets.qs, 10)
+    page_number = request.GET.get('page')
+    tablets_page_obj = paginated_filtered_tablets.get_page(page_number)
+    context['tablets_page_obj'] = tablets_page_obj
+    total_tablets = filtered_tablets.qs.count()
+    context['total_tablets'] = total_tablets
+    return render(request, 'inventory/tablets.html', context=context)
+
+@login_required
+def updateTablet(request, id):
+    tablet = Tablet.objects.get(id=id)
+    form = TabletForm(instance=tablet)
+    if request.method=='POST':
+        form = TabletForm(request.POST, instance=tablet)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The tablet has been modified successfully")
+            return redirect('tablets')
+    return render(request, 'inventory/tablet_form_update.html', {'form': form, 'tablet': tablet})
+
+@login_required
+def addTablet(request):
+    form = TabletForm()
+    if request.method == 'POST':
+        form = TabletForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            name = form.cleaned_data.get('name')
+            messages.success(request, str(name) + " has been added successfully")
+        else:
+            messages.error(request, "Please review form input fields below")
+    return render(request, 'inventory/tablet_form.html', {'form': form})
+
+@login_required
+def showSyrups(request):
+    context = {}
+    filtered_syrups = SyrupFilter(
+        request.GET,
+        queryset = Syrup.objects.all()
+    )
+    context['filtered_syrups'] = filtered_syrups
+    paginated_filtered_syrups = Paginator(filtered_syrups.qs, 10)
+    page_number = request.GET.get('page')
+    syrups_page_obj = paginated_filtered_syrups.get_page(page_number)
+    context['syrups_page_obj'] = syrups_page_obj
+    total_syrups = filtered_syrups.qs.count()
+    context['total_syrups'] = total_syrups
+    return render(request, 'inventory/syrups.html', context=context)
+
+@login_required
+def updateSyrup(request, id):
+    syrup = Syrup.objects.get(id=id)
+    form = SyrupForm(instance=syrup)
+    if request.method=='POST':
+        form = SyrupForm(request.POST, instance=syrup)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The syrup has been modified successfully")
+            return redirect('syrups')
+    return render(request, 'inventory/syrup_form_update.html', {'form': form, 'syrup': syrup})
+
+@login_required
+def addSyrup(request):
+    form = SyrupForm()
+    if request.method == 'POST':
+        form = SyrupForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            name = form.cleaned_data.get('name')
+            messages.success(request, str(name) + " has been added successfully")
+        else:
+            messages.error(request, "Please review form input fields below")
+    return render(request, 'inventory/syrup_form.html', {'form': form})
+
+@login_required
+def showSuppositories(request):
+    context = {}
+    filtered_suppositories = SuppositoryFilter(
+        request.GET,
+        queryset = Suppository.objects.all()
+    )
+    context['filtered_suppositories'] = filtered_suppositories
+    paginated_filtered_suppositories = Paginator(filtered_suppositories.qs, 10)
+    page_number = request.GET.get('page')
+    suppositories_page_obj = paginated_filtered_suppositories.get_page(page_number)
+    context['suppositories_page_obj'] = suppositories_page_obj
+    total_suppositories = filtered_suppositories.qs.count()
+    context['total_suppositories'] = total_suppositories
+    return render(request, 'inventory/suppositories.html', context=context)
+
+@login_required
+def updateSuppository(request, id):
+    suppository = Suppository.objects.get(id=id)
+    form = SuppositoryForm(instance=suppository)
+    if request.method=='POST':
+        form = SuppositoryForm(request.POST, instance=suppository)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The suppository has been modified successfully")
+            return redirect('suppositories')
+    return render(request, 'inventory/suppository_form_update.html', {'form': form, 'suppository': suppository})
+
+@login_required
+def addSuppository(request):
+    form = SuppositoryForm()
+    if request.method == 'POST':
+        form = SuppositoryForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            name = form.cleaned_data.get('name')
+            messages.success(request, str(name) + " has been added successfully")
+        else:
+            messages.error(request, "Please review form input fields below")
+    return render(request, 'inventory/suppository_form.html', {'form': form})
