@@ -21,15 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-$ws2o%#s4apd=arp)qtkphit0ddb26remc=-bb-ac^=$xrl%d!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SECRET_KEY = 'django-insecure-$ws2o%#s4apd=arp)qtkphit0ddb26remc=-bb-ac^=$xrl%d!'
-EMAIL_HOST_USER = 'yustaoab@gmail.com'
-EMAIL_HOST_PASSWORD = 'twnqanloovwgjrsq'
+
+
+
 
 # Application definition
 
@@ -88,7 +89,14 @@ MESSAGE_TAGS = {
 #
 # EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'yustaoab@gmail.com'
+EMAIL_HOST_PASSWORD = 'twnqanloovwgjrsq'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 
+## EMAIL_HOST_USER = 'info@medcarehospitals.com.ng'
+# EMAIL_HOST_PASSWORD = 'Medcare987654321!'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
