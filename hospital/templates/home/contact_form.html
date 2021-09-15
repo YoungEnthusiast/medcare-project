@@ -28,12 +28,12 @@
       </div>
     </div>
     <div class="pull-left card card-body bg-light text-warning form-group col-md-4 ml-5">
-      <h6><i class="fa fa-home fa-1x text-warning"></i> <strong class="text-primary">Address</strong></h6>
-      <p>182, Pipeline Road, Adjacent CBN Quarters, Gaa Akanbi, Ilorin, Kwara State.</p>
-      <h6><i class="fa fa-phone fa-1x text-warning"></i> <strong class="text-primary">Tel</strong></h6>
-      <p>09030983735, 09084131959</p>
-      <h6><i class="fa fa-envelope-open fa-1x text-warning"></i> <strong class="text-primary">Email</strong></h6>
-      <p>info@medcarehospitals.com.ng</p>
+      <h4><i class="fa fa-home fa-1x text-warning"></i> <strong class="text-primary">Address</strong></h6>
+      <p class="lead">182, Pipeline Road, Adjacent CBN Quarters, Gaa Akanbi, Ilorin, Kwara State.</p>
+      <h4><i class="fa fa-phone fa-1x text-warning"></i> <strong class="text-primary">Tel</strong></h6>
+      <p class="lead">09030983735, 09084131959</p>
+      <h4><i class="fa fa-envelope-open fa-1x text-warning"></i> <strong class="text-primary">Email</strong></h6>
+      <p class="lead">info@medcarehospitals.com.ng</p>
       <br>
       <br>
       <br>
@@ -41,7 +41,7 @@
       <br>
       <br>
       <br>
-      <button class="btn btn-warning" data-toggle="modal" data-target="#contact"><strong class="text-white">Click to Contact us</strong></button>
+      <button class="form-group btn btn-warning" data-toggle="modal" data-target="#contact"><strong class="text-white lead">Click to Contact us</strong></button>
     </div>
   </div>
 </section>
@@ -57,11 +57,11 @@
             </div>
             <div class="modal-body">
               <br>
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" class="form-group" enctype="multipart/form-data">
                   {% csrf_token %}
                   {{ form|crispy }}
                   <hr>
-                  <input type="submit" value="Submit" class="btn btn-block btn-warning">
+                  <input type="submit" value="Submit" class="form-group btn btn-block btn-warning">
                 </form>
             </div>
         </div>

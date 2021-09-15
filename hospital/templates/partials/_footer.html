@@ -1,9 +1,21 @@
 {% load static %}
 <footer class="mt-1 bg-primary text-white text-center">
-  <br>
-  <br>
-  <br>
+  <div class="row">
+    <div class="col-md-1">
 
+    </div>
+    <div class="col-md-10">
+      <br>
+      <h4><strong>Quick Links</strong></h4>
+      <p class="lead"><a href="{% url 'index' %}"><span class="text-warning">Home</span></a> </p>
+      <p class="lead"><a href="{% url 'about' %}"><span class="text-warning">About Us</span></a></p>
+      <p class="lead"><a href="{% url 'contact' %}"><span class="text-warning">Contact Us</span></a></p>
+    </div>
+    <div class="col-md-1">
+
+    </div>
+  </div>
+  <br>
   <div class="row">
     <div class="col-md-1">
     </div>
@@ -13,9 +25,6 @@
     <div class="col-md-1">
     </div>
   </div>
-
-
-
   <br>
   <strong class="lead">Copyright &copy; <span class="year"></span> Med Care Hospitals</strong>
 </footer>

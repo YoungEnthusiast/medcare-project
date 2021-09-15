@@ -24,8 +24,9 @@ a.button, input[type="submit"] {
     background:#057a1a;
     border-radius:1px;
     padding:10px 20px;
-    font-size:14px;
+    font-size:22px;
     border:0;
+
 }
 
 a.button.light {
@@ -83,6 +84,7 @@ tbody td.num {
 td input[type="submit"] {
     font-size:12px;
     padding:4px 10px;
+
 }
 
 form p label, form p input {

@@ -28,21 +28,20 @@
     {% endblock title %}
   </head>
   <body>
-    {% include 'partials/_topbar.html' %}
+    <main class="wrapper">
+      {% include 'partials/_topbar.html' %}
 
-    {% include 'partials/_navbar.html' %}
+      {% include 'partials/_navbar.html' %}
 
-    {% block content %}
+      {% block content %}
 
-    {% endblock content%}
+      {% endblock content%}
 
-    {% include 'partials/_footer.html' %}
+      {% include 'partials/_footer.html' %}
 
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %} "></script>
-
-
-
+      <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/main.js' %} "></script>
+    </main>
   </body>
 </html>
