@@ -110,11 +110,6 @@ DATABASES = {
     }
 }
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -167,3 +162,9 @@ LOGIN_REDIRECT_URL = 'index'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
