@@ -13,23 +13,23 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 
-# def create(request):
-#     if request.method == "POST":
-#         form = CustomRegisterForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('edit_profile0')
-#
-#             # name = form.cleaned_data.get('first_name')
-#             # email = form.cleaned_data.get('email')
-#             # messages.success(request,  ('Added successfully! Please complete registration by filling the form below'))
-#             # return redirect('edit_profile')
-#         else:
-#             messages.error(request, "Please review and correct form input fields")
-#             #return redirect('account')
-#     else:
-#         form = CustomRegisterForm()
-#     return render(request, 'users/account.html', {'form': form})
+def create(request):
+    if request.method == "POST":
+        form = CustomRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile0')
+
+            # name = form.cleaned_data.get('first_name')
+            # email = form.cleaned_data.get('email')
+            # messages.success(request,  ('Added successfully! Please complete registration by filling the form below'))
+            # return redirect('edit_profile')
+        else:
+            messages.error(request, "Please review and correct form input fields")
+            #return redirect('account')
+    else:
+        form = CustomRegisterForm()
+    return render(request, 'users/account.html', {'form': form})
 
 @login_required
 def editProfile0(request, **kwargs):
