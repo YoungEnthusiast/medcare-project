@@ -1,5 +1,6 @@
 from django import forms
 from .models import Contact, Appointment, Invoice
+from django.forms.widgets import NumberInput
 
 class ContactForm(forms.ModelForm):
     phone_number = forms.CharField(label='Phone Number')
@@ -8,9 +9,14 @@ class ContactForm(forms.ModelForm):
         fields = ['name', 'email', 'phone_number', 'message']
 
 class AppointmentForm(forms.ModelForm):
+    created = forms.DateField(widget=NumberInput(attrs={'type': 'date'}))
     class Meta:
         model = Appointment
-        fields = ['patient', 'doctor', 'status']
+        fields = ['patient', 'doctor', 'created', 'status']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['created'].label = 'Date'
 
 class InvoiceForm(forms.ModelForm):
     blood_test = forms.IntegerField(required=False, label='Blood Test')

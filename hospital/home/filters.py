@@ -11,7 +11,7 @@ class AppointmentFilter(filters.FilterSet):
 
     def __init__(self, *args, **kwargs):
         super(AppointmentFilter, self).__init__(*args, **kwargs)
-        self.filters['patient'].label="Patient's ID"
+        self.filters['patient'].label="Patient's Card No"
         self.filters['appointment_Id'].label='Appointment ID'
 
 class InvoiceFilter(filters.FilterSet):

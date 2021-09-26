@@ -14,9 +14,10 @@
     <br>
   <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
   <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'appointment_doc' %}"><i class="fas fa-plus-square fa-1x"></i> Make Appointment</a>
   <a href="{% url 'appointments_doc' %}"><strong class="text-warning"><i class="fas fa-tasks fa-1x"></i> Appointments</strong></a>
-  <a href="{% url 'consultations_doc' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
-  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create History</a>
+  <a href="{% url 'consultations_doc' %}"><i class="fas fa-history fa-1x"></i> Past Consultations</a>
+  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> New Consultation</a>
   <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
 
   </div>
@@ -57,10 +58,10 @@
                   <th>DATE</th>
                   <th>FRONT DESK OFFICER</th>
                   <th>APPOINTMENT ID</th>
-                  <th>PATIENT'S ID</th>
+                  <th>PATIENT'S CARD NO</th>
                   <th>PATIENT'S NAME</th>
                   <th>DOCTOR</th>
-                  <th>STATUS</th>
+                  <th>APPOINTMENT'S STATUS</th>
                   <th></th>
                 </tr>
               </thead>
@@ -86,7 +87,7 @@
                     <td>{{appointment.patient.user.first_name}} {{appointment.patient.user.last_name}}</td>
                     <td>Dr {{appointment.doctor.user.last_name}}</td>
                     <td>Pending</td>
-                    <td class="text-center"><a href="appointments/update/{{appointment.id}}"><button type="button" class="btn btn-sm btn-warning text-white"><strong>Modify</strong></button></a></td>
+                    <td class="text-center"><a href="appointments/update/{{appointment.id}}"><button type="button" class="btn btn-sm btn-primary text-white"><strong>Modify Appointment Status</strong></button></a></td>
                   </tr>
                 {% endif %}
               {% endfor %}

@@ -2,12 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-  <title>Update Appointment</title>
+  <title>Create Appointment</title>
 {% endblock title %}
 
 {% block content %}
 <br>
-{% if 'doctor-dashboard' in request.path %}
 <div class="sidebar">
   <br>
   <br>
@@ -15,28 +14,13 @@
   <br>
 <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
 <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
-<a href="{% url 'appointment_doc' %}"><i class="fas fa-plus-square fa-1x"></i> Make Appointment</a>
-<a href="{% url 'appointments_doc' %}"><strong class="text-warning"><i class="fas fa-tasks fa-1x"></i> Appointments</strong></a>
+<a href="{% url 'appointment_doc' %}"><strong class="text-warning"><i class="fas fa-plus-square fa-1x"></i> Make Appointment</strong></a>
+<a href="{% url 'appointments_doc' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
 <a href="{% url 'consultations_doc' %}"><i class="fas fa-history fa-1x"></i> Past Consultations</a>
 <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> New Consultation</a>
 <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
 
 </div>
-{% else %}
-<div class="sidebar">
-  <br>
-  <br>
-  <br>
-  <br>
-<a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
-<a href="{% url 'patients' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
-<a href="{% url 'appointments' %}"><strong class="text-warning"><i class="fas fa-tasks fa-1x"></i> Appointments</strong></a>
-<a href="{% url 'appointment' %}"><i class="fas fa-plus-square fa-1x"></i> Appoint</a>
-<a href="{% url 'invoices' %}"><i class="fas fa-print fa-1x"></i> Invoices</a>
-<a href="{% url 'invoice' %}"><i class="fas fa-receipt fa-1x"></i> Issue Invoice</a>
-</div>
-{% endif %}
-
   </br>
   <section class="main">
     <div class="container">
@@ -47,18 +31,17 @@
           <form method="post" class="form-group col-md-12">
             <div class="card-header bg-primary text-warning">
               <h4>
-                <i class="fas fa-edit"></i> Update Appointment</h4>
+                <i class="fas fa-plus-square"></i> Create a New Appointment</h4>
             </div>
             <br>
             {% csrf_token %}
             {{ form|crispy }}
-            <input type="submit" class="form-group col-md-12 btn btn-warning" value="Update">
+            <input type="submit" class="form-group col-md-12 btn btn-warning" value="Create Appointment">
           </form>
         </div>
         <br>
       </div>
     </div>
   </section>
-
 
 {% endblock content%}

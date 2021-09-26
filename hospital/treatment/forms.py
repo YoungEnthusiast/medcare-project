@@ -1,5 +1,6 @@
 from django import forms
 from .models import Patient, Doctor, Consultation
+from django.forms.widgets import NumberInput
 
 class PatientForm(forms.ModelForm):
     class Meta:
@@ -14,9 +15,10 @@ class DoctorForm(forms.ModelForm):
 class ConsultationForm(forms.ModelForm):
     patient_symptoms = forms.CharField(label="Patient's Complaints", widget=forms.Textarea)
     test_result = forms.CharField(required=False, label='Test Result', widget=forms.Textarea)
+    created = forms.DateField(widget=NumberInput(attrs={'type': 'date'}))
     class Meta:
         model = Consultation
-        fields = ['appointment', 'patient_symptoms', 'lab_technician', 'test_result', 'injection', 'injection_dosage', 'injection_how', 'tablet',  'tablet_dosage', 'tablet_how', 'syrup', 'syrup_dosage', 'syrup_how', 'suppository', 'suppository_dosage', 'suppository_how']
+        fields = ['appointment', 'patient_symptoms', 'lab_technician', 'test_result', 'injection', 'injection_dosage', 'injection_how', 'tablet',  'tablet_dosage', 'tablet_how', 'syrup', 'syrup_dosage', 'syrup_how', 'suppository', 'suppository_dosage', 'suppository_how', 'created']
 
     def __init__(self, *args, **kwargs):
         super(ConsultationForm, self).__init__(*args, **kwargs)
@@ -26,10 +28,10 @@ class ConsultationForm(forms.ModelForm):
             self.fields['patient_symptoms'].widget.attrs['disabled'] = 'disabled'
             self.fields['test_result'].required = False
             self.fields['test_result'].widget.attrs['disabled'] = 'disabled'
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-        # self.fields['lab_technician'].label = 'Lab Technician'
-        # self.fields['injection_how'].label = 'How Long?'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['created'].label = 'Date'
 class ConsultationFormDoc(forms.ModelForm):
     patient_symptoms = forms.CharField(label="Patient's Complaints", widget=forms.Textarea)
     test_result = forms.CharField(required=False, label='Test Result', widget=forms.Textarea)

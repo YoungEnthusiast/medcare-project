@@ -224,6 +224,39 @@ def createAppointment(request):
     return render(request, 'home/appointment_form.html', {'form': form})
 
 @login_required
+@permission_required('home.add_appointment')
+def createAppointmentDoc(request):
+    form = AppointmentForm()
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            reg = Appointment.objects.filter(appointment_Id=2021)[0]
+            reg.appointment_Id = "MCH" + str(reg.id)
+            reg.receptionist = request.user.first_name
+            reg.save()
+            #patient = form.cleaned_data.get('patient')
+            #doctor = form.cleaned_data.get('doctor')
+            receptionist = reg.receptionist
+            appointment_id = reg.appointment_Id
+            first_name = reg.patient.user.first_name
+            patient_id = reg.patient.user.username
+            doc_email = reg.doctor.user.email
+            send_mail(
+                'NEW PATIENT APPOINTMENT',
+                'You have been assigned to a new patient whose ID is: ' + str(patient_id) + '. The appointment ID is: ' + str(appointment_id) + '.',
+                'info@medcarehospitals.com.ng',
+                [doc_email],
+                fail_silently=False,
+                html_message = render_to_string('treatment/doc_appointment_email.html', {'receptionist': str(receptionist), 'first_name': str(first_name), 'patient_id': str(patient_id), 'appointment_id': str(appointment_id)})
+            )
+            messages.success(request, str(first_name) + "'s appointment has been added successfully")
+            return redirect('appointments_doc')
+        else:
+            return redirect('appointment_doc')
+    return render(request, 'home/appointment_form_doc.html', {'form': form})
+
+@login_required
 @permission_required('home.view_invoice')
 def showInvoices(request):
     context = {}

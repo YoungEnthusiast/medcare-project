@@ -238,13 +238,11 @@ class Consultation(models.Model):
     suppository_how = models.CharField(max_length=3, choices=HOW_CHOICES, default='1', null=True, blank=True, verbose_name="How Long? Day(s)")
     lab_technician = models.ForeignKey(LabScientist, on_delete = models.SET_NULL, null=True, verbose_name="Lab Technician")
     total = models.IntegerField(blank=True, default = 0, null=True)
-    created = models.DateTimeField(auto_now_add=True, null=True)
+    created = models.DateField(null=True, verbose_name="Date")
     updated = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         ordering = ('-created',)
-        verbose_name = "Patients' History"
-        verbose_name_plural = "Patients' Histories"
 
     def __str__(self):
         try:

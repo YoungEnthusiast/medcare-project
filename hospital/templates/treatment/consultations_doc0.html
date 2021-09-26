@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  <title>Patients' Histories</title>
+  <title>Past Consultations</title>
 {% endblock title %}
 
 {% block content %}
@@ -14,9 +14,10 @@
     <br>
   <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
   <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'appointment_doc' %}"><i class="fas fa-plus-square fa-1x"></i> Make Appointment</a>
   <a href="{% url 'appointments_doc' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
-  <a href="{% url 'consultations_doc' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
-  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create History</a>
+  <a href="{% url 'consultations_doc' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Past Consultations</strong></a>
+  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> New Consultation</a>
   <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
 
   </div>
@@ -56,7 +57,7 @@
                 <tr>
                   <th>DATE</th>
                   <th>APPOINTMENT</th>
-                  <th>PATIENT'S ID & NAME</th>
+                  <th>PATIENT'S CARD NO & NAME</th>
                   <th>DOCTOR</th>
                   <th>COMPLAINTS</th>
                   <th>LAB TECHNICIAN</th>

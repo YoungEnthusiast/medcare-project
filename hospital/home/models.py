@@ -61,7 +61,7 @@ class Appointment(models.Model):
 	)
     doctor = models.ForeignKey(Doctor, on_delete = models.SET_NULL, null=True)
     patient = models.ForeignKey(Patient, on_delete = models.SET_NULL, null=True)
-    created = models.DateTimeField(auto_now_add=True, null=True)
+    created = models.DateField(null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
     status = models.BooleanField(max_length =5, default=False)
 
@@ -112,7 +112,7 @@ class Invoice(models.Model):
     admission = models.IntegerField(null=True, default=0)
     injection = models.IntegerField(null=True, default=0)
     medicine = models.IntegerField(null=True, default=0)
-    created = models.DateTimeField(auto_now_add=True, null=True)
+    created = models.DateTimeField(null=True, verbose_name="Date")
     updated = models.DateTimeField(auto_now=True, null=True)
     confirmation = models.BooleanField(max_length =5, default=False)
 

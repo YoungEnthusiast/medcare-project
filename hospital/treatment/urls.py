@@ -8,6 +8,7 @@ urlpatterns = [
     path('doctor-dashboard/appointments/', home_views.showAppointmentsDoc, name='appointments_doc'),
     path('doctor-dashboard/appointments/appointments/update/<int:id>', home_views.updateAppointmentDoc, name='appointment_update'),
     path('doctor-dashboard/appointments/appointments/delete/<int:id>', home_views.deleteAppointmentDoc),
+
     path('patient/<str:pk>/', views.showPatient, name='show_patient'),
     path('doctor-dashboard/doctor-status', views.showDoctorStatus, name='doctor_status'),
     path('doctor-dashboard/doctor-status/update/<int:id>', views.updateDoctorStatus, name='doctor_status_update'),

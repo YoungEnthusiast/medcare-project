@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-  <title>Create New Medical History</title>
+  <title>Create New Consultation</title>
 {% endblock title %}
 
 {% block content %}
@@ -14,9 +14,10 @@
   <br>
 <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
 <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+<a href="{% url 'appointment_doc' %}"><i class="fas fa-plus-square fa-1x"></i> Make Appointment</a>
 <a href="{% url 'appointments_doc' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
-<a href="{% url 'consultations_doc' %}"><i class="fas fa-history fa-1x"></i> Patients' Histories</a>
-<a href="{% url 'new_history' %}"><strong class="text-warning"><i class="fas fa-clone fa-1x"></i> Create History</strong></a>
+<a href="{% url 'consultations_doc' %}"><i class="fas fa-history fa-1x"></i> Past Consultations</a>
+<a href="{% url 'new_history' %}"><strong class="text-warning"><i class="fas fa-clone fa-1x"></i> New Consultation</strong></a>
 <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
 
 
@@ -31,7 +32,7 @@
           <form method="post" class="form-group col-md-12">
             <div class="card-header bg-primary text-warning">
               <h4>
-                <i class="fas fa-clone"></i> Create a New Medical History</h4>
+                <i class="fas fa-clone"></i> Create a New Consultation</h4>
             </div>
             <br>
             {% csrf_token %}
@@ -91,7 +92,6 @@
                     {{ form.syrup_how|as_crispy_field }}
                 </div>
             </div>
-
             <div class="form-row">
                 <div class="form-group col-sm-4 mb-2">
                     {{ form.suppository|as_crispy_field }}
@@ -103,7 +103,12 @@
                     {{ form.suppository_how|as_crispy_field }}
                 </div>
             </div>
-            <input type="submit" class="form-group col-md-12 btn btn-warning" value="Create Medical History">
+            <div class="form-row">
+                <div class="form-group col-sm-12 mb-2">
+                    {{ form.created|as_crispy_field }}
+                </div>
+            </div>
+            <input type="submit" class="form-group col-md-12 btn btn-warning" value="Create Consultation">
           </form>
         </div>
         <br>

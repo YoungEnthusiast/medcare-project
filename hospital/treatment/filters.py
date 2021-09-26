@@ -14,4 +14,4 @@ class ConsultationFilter(filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super(ConsultationFilter, self).__init__(*args, **kwargs)
         self.filters['appointment'].label="Appointment ID"
-        self.filters['appointment__patient'].label="Patient's ID"
+        self.filters['appointment__patient'].label="Patient's Card No"

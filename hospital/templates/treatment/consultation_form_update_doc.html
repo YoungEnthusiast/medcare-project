@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-  <title>Update Patient</title>
+  <title>Update Consultation</title>
 {% endblock title %}
 
 {% block content %}
@@ -14,9 +14,10 @@
     <br>
   <a href="{% url 'edit_profile' %}"><i class="fas fa-edit fa-1x"></i> Edit Profile</a>
   <a href="{% url 'patients_doc' %}"><i class="fas fa-users fa-1x"></i> Patients</a>
+  <a href="{% url 'appointment_doc' %}"><i class="fas fa-plus-square fa-1x"></i> Make Appointment</a>
   <a href="{% url 'appointments_doc' %}"><i class="fas fa-tasks fa-1x"></i> Appointments</a>
-  <a href="{% url 'consultations_doc' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Patients' Histories</strong></a>
-  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> Create History</a>
+  <a href="{% url 'consultations_doc' %}"><strong class="text-warning"><i class="fas fa-history fa-1x"></i> Past Consultations</strong></a>
+  <a href="{% url 'new_history' %}"><i class="fas fa-clone fa-1x"></i> New Consultation</a>
   <a href="{% url 'doctor_status' %}"><i class="fas fa-toggle-on fa-1x"></i> Status</a>
 
   </div>
@@ -31,7 +32,7 @@
           <form method="post" class="form-group col-md-12">
             <div class="card-header bg-primary text-warning">
               <h4>
-                <i class="fas fa-edit"></i> Update Medical History</h4>
+                <i class="fas fa-edit"></i> Update Consultation</h4>
             </div>
             <br>
             {% csrf_token %}

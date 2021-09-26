@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin-dashboard/invoices', views.showInvoices, name='invoices_adm'),
     path('admin-dashboard/invoices/<str:pk>/', views.showInvoice, name='show_invoice'),
     path('admin-dashboard/invoices/update/<int:id>', views.updateInvoiceAdm, name='invoice_update_adm'),
+    path('doctor-dashboard/create-appointment', views.createAppointmentDoc, name='appointment_doc'),
     #path('admin-dashboard/invoices/update/<int:pk>', views.InvoiceUpdateView.as_view(), name='invoice_update_adm'),
 ]
