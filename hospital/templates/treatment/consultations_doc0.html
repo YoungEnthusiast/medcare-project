@@ -26,7 +26,7 @@
     {% include 'partials/_alerts.html' %}
 
     {% if consultations_page_obj %}
-    <h4 class="text-center text-warning">Search Histories by One or Many Fields</h4>
+    <h4 class="text-center text-warning">Search by One or Many Fields</h4>
     <div class="col-md-12">
       <div class="box-element bg-warning" id="form-wrapper">
         <form method="get" class="form-inline text-white">
@@ -44,11 +44,11 @@
         <div class="col-md-12">
           {% if total_consultations > 1 %}
           <div class="form-group col-md-12">
-            <h3 class="form-group text-warning">Total Histories: {{total_consultations}}</h3>
+            <h3 class="form-group text-warning">Total Consultations: {{total_consultations}}</h3>
           </div>
           {% else %}
           <div class="form-group col-md-12">
-            <h3 class="form-group text-warning">Total History: {{total_consultations}}</h3>
+            <h3 class="form-group text-warning">Total Consultation: {{total_consultations}}</h3>
           </div>
           {% endif %}
           <div class="table-responsive">
@@ -99,7 +99,7 @@
         </div>
       {% else %}
       <div class="container">
-        <h3>No patients' history found!</h3>
+        <h3>No consultation found!</h3>
       </div>
 
       {% endif %}

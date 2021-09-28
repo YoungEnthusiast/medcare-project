@@ -1,9 +1,12 @@
 import django_filters as filters
 from django_filters import CharFilter, DateFilter
 from .models import Appointment, Invoice
+from django.forms.widgets import TextInput
 
 class AppointmentFilter(filters.FilterSet):
-    start_date = DateFilter(field_name="created", lookup_expr='gte', label='Date')
+    start_date = DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y', '%Y/%m/%d', '%d/%m/%Y'], field_name="created", lookup_expr='gte', label='Dates Above', widget=TextInput(attrs={'placeholder': 'Format: 1-1-2021 or 1/1/2021'}))
+    start_date2 = DateFilter(input_formats=['%Y-%m-%d', '%d-%m-%Y', '%Y/%m/%d', '%d/%m/%Y'], field_name="created", lookup_expr='lte', label='Dates Below', widget=TextInput(attrs={'placeholder': 'Format: 1-1-2021 or 1/1/2021'}))
+    created = DateFilter(label="Exact Date", input_formats=['%Y-%m-%d', '%d-%m-%Y', '%Y/%m/%d', '%d/%m/%Y'], lookup_expr='icontains', widget=TextInput(attrs={'placeholder': 'Format: 1-1-2021 or 1/1/2021'}))
 
     class Meta:
         model = Appointment
