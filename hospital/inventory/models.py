@@ -1,7 +1,7 @@
 from django.db import models
 
 class Injection(models.Model):
-    name = models.CharField(max_length=30, null=True)
+    name = models.CharField(max_length=30, null=True, verbose_name="Type")
     price = models.IntegerField(blank=True, default = 0, null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
@@ -15,7 +15,7 @@ class Injection(models.Model):
         return str(self.name)
 
 class Tablet(models.Model):
-    name = models.CharField(max_length=30, null=True)
+    name = models.CharField(max_length=30, null=True, verbose_name="Type")
     price = models.IntegerField(blank=True, default = 0, null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
@@ -34,7 +34,7 @@ class Tablet(models.Model):
     #         return 0
 
 class Syrup(models.Model):
-    name = models.CharField(max_length=30, null=True)
+    name = models.CharField(max_length=30, null=True, verbose_name="Type")
     price = models.IntegerField(blank=True, default = 0, null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
@@ -48,7 +48,7 @@ class Syrup(models.Model):
         return str(self.name)
 
 class Suppository(models.Model):
-    name = models.CharField(max_length=30, null=True)
+    name = models.CharField(max_length=30, null=True, verbose_name="Type")
     price = models.IntegerField(blank=True, default = 0, null=True)
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
