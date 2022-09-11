@@ -93,13 +93,13 @@ MESSAGE_TAGS = {
 # EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'yustaoab@gmail.com'
-EMAIL_HOST_PASSWORD = 'twnqanloovwgjrsq'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_SSL = True
 #EMAIL_PORT = 587
 EMAIL_PORT = 465
 
 ## EMAIL_HOST_USER = 'info@medcarehospitals.com.ng'
-# EMAIL_HOST_PASSWORD = 'Medcare987654321!'
+# EMAIL_HOST_PASSWORD = ''
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
